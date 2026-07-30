@@ -1,45 +1,39 @@
-# Creative Director Cinematic Rules (Google Flow Optimized)
+# Creative Director Cinematic Rules (Google Flow Physicality)
 
-Google Flow and Veo 3 require granular, physical, cinematic language. A script that says "show the user looking sad" will fail. A script that specifies camera lenses, lighting, and motion will succeed.
+Google Flow and Veo 3 do not just want to know what lens is being used; they want to know what is physically happening in the frame.
+
+## The Physicality Rule
+Visual directions must focus on physical actions, interactions, and consequences.
+
+**Bad (Too Metadata Heavy):**
+Close Up, 35mm, Ring Light, Home Office. Actor looks sad. Overlay: Graph going down.
+
+**Good (Physical & Action-Oriented):**
+Actor stares blankly at laptop. Finger hovers over the 'Post' button, trembling slightly. The moment they click, the analytics graph on screen instantly flatlines to zero. Camera slowly pushes in on their exhausted exhale.
+
+## The Transformation Demo
+When creating a 'Demo' scene, you must show the *transformation*, not just the product existing.
+- **Bad:** Show scrolling through the ebook.
+- **Good:** Split screen. Left: Actor staring at a blank script page for 3 hours. Right: Actor copy-pastes a formula from the ebook, fills in one blank, and hits record. 
+
+## The Concrete Proof
+When creating a 'Proof' scene, it must be irrefutable data.
+- **Bad:** Notifications popping up saying "Likes".
+- **Good:** A side-by-side comparison. "Creator A using old hook: 210 views. Creator B using formula: 42,000 views in 3 hours."
 
 ## The 2.5-Second Rule
 **NEVER keep the same shot for more than 2.5 seconds.**
-If a scene duration is 5 seconds, it MUST contain at least two shots, or a dynamic camera movement combined with an overlay pop.
+If a scene duration is 10 seconds, it MUST contain multiple physical actions, rapid cuts, or dynamic camera movements.
 
-Every single scene MUST include AT LEAST THREE of the following elements:
-- Motion (Actor physical movement)
-- Overlay (UI pop, text, tweet bubble)
-- Camera Movement (Zoom, push, pan)
-- Object Interaction (Holding, dropping, pointing)
-- Transition (Match cut, smash zoom, whip pan)
-- Sound Cue (Implied sound design for Google Flow)
+## Output Modes
 
-## Granular Google Flow Tagging
-Every scene's `Visual` block must be structured using these exact cinematic parameters:
+### Production Mode (Default)
+When outputting the final script, keep the visuals highly readable for the user. Do not dump metadata. Focus on the physical action.
 
-- **Shot:** Extreme Close Up (ECU), Close Up (CU), Medium Shot (MS), Over The Shoulder (OTS), POV, Macro.
-- **Lens:** 24mm (Wide, slightly distorted/raw UGC), 35mm (Standard eye-level), 50mm (Cinematic portrait, flattering), 85mm (Extreme close up portrait).
-- **Lighting:** Ring Light (Classic UGC), Natural Window Light (Soft, lifestyle), Dark Bedroom/Screen Glow (Late night worker), Studio Neon (Tech/modern), Harsh Sunlight (Outdoor/active).
-- **Environment:** Specific location details (Messy desk with empty coffee cups, minimalist white office, cafe table, gym floor).
-- **Camera Motion:** Static Tripod, Handheld Slight Shake (Raw UGC feel), Snap Zoom In, Whip Pan Left/Right, Slow Cinematic Push, Tracking Shot.
-- **Depth of Field (DOF):** Shallow (Blurry background, focuses on face/prop), Deep (Everything in focus, good for environments/rooms).
-- **Facial Expression:** Explicit physical cues (Furrowed brow, wide eyes, deadpan stare, smirking, sighing, rapid blinking).
-- **Overlay:** Exact text, UI elements, charts, notification popups, progress bars.
-- **Subtitle:** Typography style (e.g., "Large yellow Hormozi-style text", "Minimalist white text", "Bold red typewriter").
-- **Sound Cue:** Audio to accompany the visual (e.g., "SFX: Heavy thump as book drops", "SFX: iPhone notification ping", "SFX: Camera shutter").
-
-## Example of a Fully Compliant Visual Block:
 ```markdown
-**Visual:**
-- Shot: Close Up (CU)
-- Lens: 35mm
-- Lighting: Screen Glow in a dark bedroom
-- Environment: Home office desk, messy background
-- Camera Motion: Handheld slight shake -> Snap Zoom at 00:02
-- Depth of Field (DOF): Shallow
-- Facial Expression: Exhausted, rubbing temples, squinting at screen
-- Overlay: Red declining analytics chart pops up at top right
-- Subtitle: Bold Yellow, high contrast
-- Sound Cue: SFX: Glitch sound when chart pops up
-- Transition: Whip pan right on "But it's not..."
+**Visual:** Actor taps the analytics screen. The retention graph instantly collapses to 10%. The phone vibrates violently. Camera slowly pushes into the actor's frustrated sigh.
+**Voiceover:** [Line 1...]
 ```
+
+### Developer Mode
+Only use this if the user explicitly asks for "Developer Mode" or "Full Metadata". This mode lists every parameter (Shot, Lens, Lighting, DOF, etc.).

@@ -3,41 +3,42 @@ name: viral-ugc-ads
 description: Use when generating short-form video ad scripts (TikTok, Reels, Shorts) optimized for Google Flow/Veo 3. Triggers on requests for UGC scripts, high-retention video ads, or direct response video copy.
 ---
 
-# Viral UGC Ads Script Generator v2 (Creative Director Edition)
+# Viral UGC Ads Script Generator v3 (The Blueprint Edition)
 
 ## Overview
-This skill operates as a production-grade Creative Director. It does not just fill templates. It uses a decision engine to generate candidate hooks, scores them, selects the best, writes the script using strict cinematic rules, and performs a rigorous self-critique before finalizing the output.
+This skill operates as a production-grade Creative Director. It relies on a strict **Planning Layer** and **Constraint Enforcement**. It does not jump straight to writing. It calculates, plans, drafts, and ruthlessly critiques.
 
 ## Core Directives
-1. **Never use the first hook generated.** Always generate at least 3, score them, and pick the winner.
-2. **Never keep a shot static.** Enforce the 2.5-second cinematic rule.
-3. **Never output the first draft.** Always run Self-Critique and rewrite weak sections.
-4. **Always use granular Google Flow visual tags.** (Shot, Lens, Lighting, Motion, DOF, Overlay, Subtitle, Sound Cue).
+1. **Never start writing immediately.** You MUST build a Scene Blueprint first.
+2. **Obey Hard Constraints.** If the user asks for 90 seconds and 9 scenes, you output EXACTLY 90 seconds and 9 scenes.
+3. **Physical Visuals.** Google Flow wants physical action (e.g., "Actor taps screen, graph collapses"), not just camera lenses.
+4. **Ruthless Self-Critique.** If the draft fails the constraint check, you MUST rewrite it. No excuses.
 
-## The Decision Engine Workflow
+## The Generation Pipeline
 
-When generating a script, you MUST execute these steps in order, *and show your work*:
+When generating a script, you MUST execute these steps in order and explicitly show your work in the response:
 
-### Step 1: Story Engine Selection
-Consult `workflow.md`. Choose the most appropriate Story Framework (Pain/Enemy, Prediction/Reveal, Challenge/Proof, or Story/Conflict) based on the product and audience. State your choice.
+### Step 1: Constraint Extraction & Validation
+Read the user's brief. Extract: `Duration`, `Scene Count`, `Platform`, `Audience`, `Language`, `Product`. 
+If `Duration` or `Scene Count` are not provided, define them explicitly (Default: 60s, 6 scenes) before proceeding.
 
-### Step 2: Hook Generation & Scoring
-Consult `hook-library.md`. 
-- Generate AT LEAST 3 candidate hooks. 
-- Reject generic hooks, greetings, product intros, and explanations.
-- Score each candidate (1-10) on: Curiosity, Shock, Novelty, Relatability, and Swipe Risk (lower is better).
-- Sum the scores. Choose the highest-scoring hook.
+### Step 2: Scene Planner (The Blueprint)
+Consult `planning-engine.md`. Do the math. Divide the duration by the scene count. Allocate specific time blocks to each scene.
+Map the emotional arc across the requested number of scenes.
 
-### Step 3: Script Drafting
+### Step 3: Story Engine & Hook Selection
+Consult `workflow.md` to select the philosophical framework.
+Consult `hook-library.md` to generate 3 candidate hooks, score them, and pick the winner.
+
+### Step 4: Script Drafting
 Draft the script using:
-- `scene-system.md` for the exact metadata and Google Flow visual structure.
-- `cinematic-rules.md` to ensure aggressive pacing and motion.
-- `voiceover-library.md` for emotional tone tagging.
+- `cinematic-rules.md` for physical, Google Flow-optimized visual direction.
+- `scene-system.md` to format the output. **Always use Production Mode unless Developer Mode is explicitly requested.**
 
-### Step 4: AI Self-Critique
-Run the draft through the strict review engine defined in `self-critique.md`.
-Score Hook, Retention, Visual, Voice, and CTA out of 10.
-Provide reasons. If any score is < 8/10, REWRITE that section immediately.
+### Step 5: Creative Director & Constraint Review
+Consult `self-critique.md`.
+Run the Hard Constraint Check (Expected vs Actual). If it fails, state `FAIL - Rewrite Required` and generate again.
+Score the creative elements. If any score < 8/10, rewrite.
 
-### Step 5: Final Output
-Output the finalized, polished script ready for production.
+### Step 6: Final Output
+Output the finalized, constraint-validated script.
