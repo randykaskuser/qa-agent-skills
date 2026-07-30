@@ -1,0 +1,19 @@
+{
+  "skill_name": "technical-blogger",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a technical blog post explaining how React Server Components work under the hood.",
+      "expected_output": "A multi-phase interaction where the AI first asks for approval on audience and core idea, then outline, before generating a high-quality article.",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "Write an article about migrating from Jest to Playwright for API testing.",
+      "expected_output": "A multi-phase interaction following the strict 11-phase workflow.",
+      "files": [],
+      "assertions": []
+    }
+  ]
+}
