@@ -5,8 +5,8 @@
   "plugins": [
     {
       "name": "qa-agent-skills",
-      "description": "Tool-agnostic QA skills: ticket-driven QA runs and exploratory testing with no spec.",
-      "version": "1.0.0",
+      "description": "Tool-agnostic QA skills: ticket-driven QA runs, exploratory testing with no spec, and spec-to-test-case generation (Casely).",
+      "version": "1.1.0",
       "source": "./",
       "author": { "name": "Randy Maulana" }
     }

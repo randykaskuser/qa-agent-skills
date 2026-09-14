@@ -105,10 +105,11 @@ questions is how bugs get canonised.
 
 ## Phase 4 — Hand off to Casely
 
-> Casely is a separate, optional plugin — not part of this repo. It turns a requirements
-> document into review-ready test cases and exports. Install it from
-> <https://github.com/JohnWayneeee/casely-qa-skill> (MIT, by John Wayne). This phase degrades
-> gracefully without it: see the fallback at the end of the section.
+> Casely is bundled in this repo as `skills/casely` (a vendored copy of
+> <https://github.com/JohnWayneeee/casely-qa-skill>, MIT, by John Wayne — see its NOTICE.md).
+> It turns a requirements document into review-ready test cases and exports. If it is not
+> available in your install, this phase degrades gracefully: see the fallback at the end of
+> the section.
 
 With `observed_spec.md` settled, invoke the Casely skill exactly as if the user had attached a
 requirements document. Casely's own flow takes over: style guide, test plan with an approval

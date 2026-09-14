@@ -3,12 +3,13 @@
 Tool-agnostic QA skills for coding agents (Claude Code, Cowork, and anything else that reads
 `SKILL.md` files).
 
-Two skills, for the two situations QA actually shows up in:
+Three skills, covering the situations QA actually shows up in:
 
 | Skill | Use it when | Output |
 |---|---|---|
 | [`ticket-driven-qa`](skills/ticket-driven-qa) | There **is** a ticket and a code change to verify | A QA ticket, a test run against live environments, one results comment with reproducible bug reports |
 | [`exploratory-web-testing`](skills/exploratory-web-testing) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
+| [`casely`](skills/casely) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
 Nothing here is tied to a company, a product, or a specific tracker. Ticket and code-review
 platforms are handled by swappable adapters, and project specifics live in one file you fill in.
@@ -97,14 +98,33 @@ Qase's importer will not remap headers, so the converter emits Qase's own column
 picks up custom fields and your Qase version's step format. Pure standard library, no
 dependencies, no network calls.
 
-## Companion skill (not included)
+## casely
 
-Phase 4 of `exploratory-web-testing` hands the observed spec to **Casely**, a separate MIT-licensed
-plugin by John Wayne that turns requirements into review-ready test cases, TestRail/Qase exports,
-and Postman collections: <https://github.com/JohnWayneeee/casely-qa-skill>
+A **Virtual QA Lead**: hand it a requirements document (PDF, DOCX, XLSX, TXT, MD, or pasted
+text) and it produces a style guide, a test plan with one approval gate, atomic test cases, and
+an Excel export ready for TestRail/Qase/Zephyr import. When the requirements describe an API,
+it also builds a ready-to-run Postman collection.
 
-It is not vendored here so it keeps getting upstream updates. Both skills work without it — case
-generation is just weaker.
+`casely` is a vendored, lightly modified copy of [Casely](https://github.com/JohnWayneeee/casely-qa-skill)
+by John Wayne (MIT). See [`skills/casely/NOTICE.md`](skills/casely/NOTICE.md) for exactly what
+changed and how to diff against upstream.
+
+## How the three fit together
+
+```
+Have a ticket + a diff?             → ticket-driven-qa
+Have a spec but no test cases?      → casely
+Have nothing but a URL?             → exploratory-web-testing → (Phase 4) casely → Qase CSV
+```
+
+`exploratory-web-testing` writes the observed-behaviour spec that `casely` then turns into a
+suite. `ticket-driven-qa` stands alone: it verifies one change end to end and files bugs.
+
+## Attribution
+
+- `ticket-driven-qa` and `exploratory-web-testing` — Randy Maulana, MIT.
+- `casely` — John Wayne, MIT, <https://github.com/JohnWayneeee/casely-qa-skill>. Vendored with
+  its license intact; modifications listed in `skills/casely/NOTICE.md`.
 
 ## License
 
