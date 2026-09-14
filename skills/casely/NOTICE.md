@@ -23,10 +23,16 @@ benchmark, and marketplace manifest. Only the `skill/casely/` folder and `LICENS
 
 ## Checking for upstream drift
 
+A GitHub Actions workflow (`.github/workflows/casely-upstream-drift.yml`) runs on the 1st of
+every month, applies the two changes above to a fresh upstream clone, and diffs the result
+against this folder. If anything differs it opens an issue labelled `casely-upstream` with
+the diff (or updates the existing open one). Trigger it by hand from the Actions tab.
+
+To run the same check locally:
+
 ```bash
 git clone --depth 1 https://github.com/JohnWayneeee/casely-qa-skill.git /tmp/casely-upstream
-diff -r /tmp/casely-upstream/skill/casely skills/casely \
-  --exclude=LICENSE --exclude=NOTICE.md
+.github/scripts/casely_drift.sh /tmp/casely-upstream skills/casely
 ```
 
-Expect exactly the two changes above. Anything else is an upstream update worth pulling in.
+Empty output means no drift. Anything printed is upstream movement worth pulling in.
