@@ -1,0 +1,14 @@
+{
+  "name": "qa-agent-skills",
+  "description": "QA skills for coding agents",
+  "owner": { "name": "Randy Maulana" },
+  "plugins": [
+    {
+      "name": "qa-agent-skills",
+      "description": "Tool-agnostic QA skills: ticket-driven QA runs and exploratory testing with no spec.",
+      "version": "1.0.0",
+      "source": "./",
+      "author": { "name": "Randy Maulana" }
+    }
+  ]
+}
