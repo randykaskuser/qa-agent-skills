@@ -3,13 +3,22 @@
 Tool-agnostic QA skills for coding agents (Claude Code, Cowork, and anything else that reads
 `SKILL.md` files).
 
-Three skills, covering the situations QA actually shows up in:
+The core is three skills, covering the situations QA actually shows up in:
 
 | Skill | Use it when | Output |
 |---|---|---|
 | [`ticket-driven-qa`](skills/ticket-driven-qa) | There **is** a ticket and a code change to verify | A QA ticket, a test run against live environments, one results comment with reproducible bug reports |
 | [`exploratory-web-testing`](skills/exploratory-web-testing) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
 | [`casely`](skills/casely) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
+
+Plus four more that were in this repo before the core three landed:
+
+| Skill | What it does |
+|---|---|
+| [`qa-automation`](skills/qa-automation) | Principal-SDET partner for Playwright automation: requirements analysis, web/api/mobile monorepo layout with a shared core, flat POMs, `APIRequestContext`, test plans, production-readiness review |
+| [`playwright-robot`](skills/playwright-robot) | Turns raw requirements into a Playwright suite by inspecting the live accessibility tree through the Playwright MCP, then self-heals failures |
+| [`technical-blogger`](skills/technical-blogger) | Writes and edits technical blog posts, deep-dives, investigations, and SOPs — knowledge representation and evidence hierarchy over storytelling |
+| [`viral-ugc-ads`](skills/viral-ugc-ads) | Short-form video ad scripts (TikTok, Reels, Shorts) tuned for Google Flow / Veo 3 |
 
 Nothing here is tied to a company, a product, or a specific tracker. Ticket and code-review
 platforms are handled by swappable adapters, and project specifics live in one file you fill in.
@@ -25,7 +34,7 @@ As a Claude Code plugin marketplace:
 
 Or just clone it and point your agent at the `skills/` folder.
 
-## Why these two skills exist
+## Why the core three exist
 
 **Most QA bugs are not missed checks. They are checks done in the wrong place.**
 
@@ -115,6 +124,7 @@ changed and how to diff against upstream.
 Have a ticket + a diff?             → ticket-driven-qa
 Have a spec but no test cases?      → casely
 Have nothing but a URL?             → exploratory-web-testing → (Phase 4) casely → Qase CSV
+Have cases, want them automated?    → qa-automation (architecture + review) or playwright-robot (generate + self-heal)
 ```
 
 `exploratory-web-testing` writes the observed-behaviour spec that `casely` then turns into a
@@ -122,7 +132,8 @@ suite. `ticket-driven-qa` stands alone: it verifies one change end to end and fi
 
 ## Attribution
 
-- `ticket-driven-qa` and `exploratory-web-testing` — Randy Maulana, MIT.
+- `ticket-driven-qa`, `exploratory-web-testing`, `qa-automation`, `playwright-robot`,
+  `technical-blogger`, `viral-ugc-ads` — Randy Maulana, MIT.
 - `casely` — John Wayne, MIT, <https://github.com/JohnWayneeee/casely-qa-skill>. Vendored with
   its license intact; modifications listed in `skills/casely/NOTICE.md`.
 

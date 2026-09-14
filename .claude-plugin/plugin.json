@@ -1,6 +1,6 @@
 {
   "name": "qa-agent-skills",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Tool-agnostic QA skills for coding agents: turn a ticket and its code diff into an executable QA plan and a reproducible bug report, or explore an app with no spec into a regression suite.",
   "author": { "name": "Randy Maulana" },
   "homepage": "https://github.com/randykaskuser/qa-agent-skills",
