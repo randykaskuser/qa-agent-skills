@@ -21,7 +21,7 @@ jobs:
   drift:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Clone upstream
         run: git clone --depth 1 "https://github.com/${UPSTREAM_REPO}.git" upstream
