@@ -1,14 +1,18 @@
 {
   "name": "qa-agent-skills",
   "description": "QA skills for coding agents",
-  "owner": { "name": "Randy Maulana" },
+  "owner": {
+    "name": "Randy Maulana"
+  },
   "plugins": [
     {
       "name": "qa-agent-skills",
       "description": "Tool-agnostic QA skills: ticket-driven QA runs, exploratory testing with no spec, spec-to-test-case generation (Casely), and Playwright automation architecture.",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "source": "./",
-      "author": { "name": "Randy Maulana" }
+      "author": {
+        "name": "Randy Maulana"
+      }
     }
   ]
 }
