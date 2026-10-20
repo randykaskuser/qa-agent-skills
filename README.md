@@ -11,13 +11,14 @@ The core is three skills, covering the situations QA actually shows up in:
 | [`exploratory-web-testing`](skills/exploratory-web-testing) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
 | [`casely`](skills/casely) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
-Plus four more that were in this repo before the core three landed:
+Plus five more that were in this repo before the core three landed:
 
 | Skill | What it does |
 |---|---|
 | [`qa-automation`](skills/qa-automation) | Principal-SDET partner for Playwright automation: requirements analysis, web/api/mobile monorepo layout with a shared core, flat POMs, `APIRequestContext`, test plans, production-readiness review |
 | [`playwright-robot`](skills/playwright-robot) | Turns raw requirements into a Playwright suite by inspecting the live accessibility tree through the Playwright MCP, then self-heals failures |
 | [`technical-blogger`](skills/technical-blogger) | Writes and edits technical blog posts, deep-dives, investigations, and SOPs — knowledge representation and evidence hierarchy over storytelling |
+| [`technical-blogger-reviewer`](skills/technical-blogger-reviewer) | Reviews a drafted article before publish — hunts Indonesian literal-translation calques ("rancu"), keeps technical terms in English, cuts wordiness, re-verifies claims, and returns the fixed draft plus a review log |
 | [`viral-ugc-ads`](skills/viral-ugc-ads) | Short-form video ad scripts (TikTok, Reels, Shorts) tuned for Google Flow / Veo 3 |
 
 Nothing here is tied to a company, a product, or a specific tracker. Ticket and code-review
@@ -133,7 +134,7 @@ suite. `ticket-driven-qa` stands alone: it verifies one change end to end and fi
 ## Attribution
 
 - `ticket-driven-qa`, `exploratory-web-testing`, `qa-automation`, `playwright-robot`,
-  `technical-blogger`, `viral-ugc-ads` — Randy Maulana, MIT.
+  `technical-blogger`, `technical-blogger-reviewer`, `viral-ugc-ads` — Randy Maulana, MIT.
 - `casely` — John Wayne, MIT, <https://github.com/JohnWayneeee/casely-qa-skill>. Vendored with
   its license intact; modifications listed in `skills/casely/NOTICE.md`.
 
