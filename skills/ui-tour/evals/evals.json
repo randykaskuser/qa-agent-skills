@@ -1,0 +1,23 @@
+{
+  "skill_name": "ui-tour",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to redesign Settings → Output in ViralClipper. Show me what it looks like now and what's on it.",
+      "expected_output": "One self-contained HTML page with annotated screenshots of the Settings → Output screen, a table of its controls, ranked rough edges and a code map; dev servers stopped and no settings saved.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "make me an overview i can look at of the homepage, the AI status card and the job list. layout + where the code is",
+      "expected_output": "One HTML page covering the home page with pins on the AI status card and the job list, a code map for both, and rough edges; nothing changed in the app.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Give me a visual walkthrough of the install guide page in cloud/install-guide/ before I rework it.",
+      "expected_output": "One HTML page for the static install guide (no app servers started), annotated screenshots including a phone-width view since the page is responsive, rough edges and a code map.",
+      "files": []
+    }
+  ]
+}

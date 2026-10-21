@@ -11,7 +11,7 @@ The core is three skills, covering the situations QA actually shows up in:
 | [`exploratory-web-testing`](skills/exploratory-web-testing) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
 | [`casely`](skills/casely) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
-Plus five more that were in this repo before the core three landed:
+Plus six more:
 
 | Skill | What it does |
 |---|---|
@@ -20,6 +20,7 @@ Plus five more that were in this repo before the core three landed:
 | [`technical-blogger`](skills/technical-blogger) | Writes and edits technical blog posts, deep-dives, investigations, and SOPs — knowledge representation and evidence hierarchy over storytelling |
 | [`technical-blogger-reviewer`](skills/technical-blogger-reviewer) | Reviews a drafted article before publish — hunts Indonesian literal-translation calques ("rancu"), keeps technical terms in English, cuts wordiness, re-verifies claims, and returns the fixed draft plus a review log |
 | [`viral-ugc-ads`](skills/viral-ugc-ads) | Short-form video ad scripts (TikTok, Reels, Shorts) tuned for Google Flow / Veo 3 |
+| [`ui-tour`](skills/ui-tour) | Before you change a screen: real screenshots of its key states with numbered pins, every control and its choices, the rough edges ranked, and a map of the source files, as one HTML page |
 
 Nothing here is tied to a company, a product, or a specific tracker. Ticket and code-review
 platforms are handled by swappable adapters, and project specifics live in one file you fill in.
@@ -126,15 +127,51 @@ Have a ticket + a diff?             → ticket-driven-qa
 Have a spec but no test cases?      → casely
 Have nothing but a URL?             → exploratory-web-testing → (Phase 4) casely → Qase CSV
 Have cases, want them automated?    → qa-automation (architecture + review) or playwright-robot (generate + self-heal)
+About to change a screen?           → ui-tour (see it, its controls and its rough edges first)
 ```
 
 `exploratory-web-testing` writes the observed-behaviour spec that `casely` then turns into a
 suite. `ticket-driven-qa` stands alone: it verifies one change end to end and files bugs.
 
+## ui-tour
+
+```
+Project notes (.claude/ui-tour.md) → read the screen's code → open it with real data
+   → 2-4 key states (+ a phone view for public pages) → pins, controls, rough edges, code map
+   → scripts/build_tour.py → one self-contained HTML page → clean up, update the notes
+```
+
+Works on any web app, and on the web part of an Electron app. Project specifics (how to start
+the app, which record to open, processes never to kill) live in `.claude/ui-tour.md`; copy
+`skills/ui-tour/references/project-notes.template.md` there, or let the first tour write it.
+
+```bash
+python skills/ui-tour/scripts/build_tour.py tour.json screen-tour.html
+```
+
+The spec format is in `SKILL.md`. Images are embedded, so the page is one file you can send.
+Cropping needs Pillow; without it the full screenshots are embedded and the pins still line up.
+
+### Test prompts
+
+The prompts in `skills/ui-tour/evals/evals.json`, each run once with and once without the skill
+on a real Next.js + FastAPI app:
+
+| # | Prompt | What it checks |
+|---|---|---|
+| 1 | "I want to redesign Settings → Output in ViralClipper. Show me what it looks like now and what's on it." | A settings screen with a backend; controls table and rough edges |
+| 2 | "make me an overview i can look at of the homepage, the AI status card and the job list. layout + where the code is" | Casual phrasing, two areas on one page, a control that must not be clicked |
+| 3 | "Give me a visual walkthrough of the install guide page in cloud/install-guide/ before I rework it." | A static page with no app servers, and a phone-width view |
+
+First iteration: 96% of checks passed with the skill against 53% without. Every run with the skill
+produced the annotated page and 3-4 measured rough edges; no run without it did either, and one
+baseline invented UI options the code does not have. The skill takes about twice as long (around
+11 minutes against 6).
+
 ## Attribution
 
 - `ticket-driven-qa`, `exploratory-web-testing`, `qa-automation`, `playwright-robot`,
-  `technical-blogger`, `technical-blogger-reviewer`, `viral-ugc-ads` — Randy Maulana, MIT.
+  `technical-blogger`, `technical-blogger-reviewer`, `viral-ugc-ads`, `ui-tour` — Randy Maulana, MIT.
 - `casely` — John Wayne, MIT, <https://github.com/JohnWayneeee/casely-qa-skill>. Vendored with
   its license intact; modifications listed in `skills/casely/NOTICE.md`.
 
