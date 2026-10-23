@@ -1,0 +1,53 @@
+{
+  "skill_name": "repo-gap-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "apa yang kurang ya di repo lastwar ini? kasih saran fitur juga. repo: /Users/randy-maulana/Development/lastwar",
+      "expected_output": "A report in Indonesian: product summary, top five ranked gaps each with path:line evidence, ICE score and S/M/L effort, two or three grounded feature suggestions, one 'start here' item; no project files changed.",
+      "files": [],
+      "assertions": [
+        "Every top finding cites a path:line the agent read",
+        "At most five top findings, ranked by score",
+        "Each top finding has an effort label (S/M/L or equivalent time estimate)",
+        "Each top finding has an ICE or equivalent priority score",
+        "Report names one single item to start with",
+        "Target repo git status unchanged (no edits by the run)",
+        "Report is written in Indonesian",
+        "Includes 2-3 feature suggestions, each tied to code evidence"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Do a gap analysis of /Users/randy-maulana/Development/players-revamp - what's half-built or broken, and what should we build next?",
+      "expected_output": "A ranked gap report with evidence for every finding, recent-commit loose ends covered, feature suggestions tied to code, no edits or commits.",
+      "files": [],
+      "assertions": [
+        "Every top finding cites a path:line the agent read",
+        "At most five top findings, ranked by score",
+        "Each top finding has an effort label (S/M/L or equivalent time estimate)",
+        "Each top finding has an ICE or equivalent priority score",
+        "Report names one single item to start with",
+        "Target repo git status unchanged (no edits by the run)",
+        "Includes 2-3 feature suggestions, each tied to code evidence",
+        "Covers loose ends from recent commits (git log)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "what's missing in the backend/ folder of /Users/randy-maulana/Development/Clipper? mostly care about reliability and tests",
+      "expected_output": "A report scoped to Clipper/backend with reliability (swallowed errors, missing fallbacks) and test-gap findings first, each with path:line, ranked by ICE; no edits.",
+      "files": [],
+      "assertions": [
+        "Every top finding cites a path:line the agent read",
+        "At most five top findings, ranked by score",
+        "Each top finding has an effort label (S/M/L or equivalent time estimate)",
+        "Each top finding has an ICE or equivalent priority score",
+        "Report names one single item to start with",
+        "Target repo git status unchanged (no edits by the run)",
+        "All top findings are inside Clipper/backend/",
+        "Reliability or test-gap findings rank above other categories"
+      ]
+    }
+  ]
+}

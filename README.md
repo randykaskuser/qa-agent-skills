@@ -11,7 +11,7 @@ The core is three skills, covering the situations QA actually shows up in:
 | [`exploratory-web-testing`](skills/exploratory-web-testing) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
 | [`casely`](skills/casely) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
-Plus six more:
+Plus seven more:
 
 | Skill | What it does |
 |---|---|
@@ -20,6 +20,7 @@ Plus six more:
 | [`technical-blogger`](skills/technical-blogger) | Writes and edits technical blog posts, deep-dives, investigations, and SOPs — knowledge representation and evidence hierarchy over storytelling |
 | [`technical-blogger-reviewer`](skills/technical-blogger-reviewer) | Reviews a drafted article before publish — hunts Indonesian literal-translation calques ("rancu"), keeps technical terms in English, cuts wordiness, re-verifies claims, and returns the fixed draft plus a review log |
 | [`viral-ugc-ads`](skills/viral-ugc-ads) | Short-form video ad scripts (TikTok, Reels, Shorts) tuned for Google Flow / Veo 3 |
+| [`repo-gap-audit`](skills/repo-gap-audit) | Answers "what's missing in this repo?": five scanners (unfinished work, dead ends, recent-commit loose ends, resilience, test gaps), a noise filter, ICE-ranked top five with `path:line` evidence, and grounded feature suggestions. Report only, no code changes |
 | [`ui-tour`](skills/ui-tour) | Before you change a screen: real screenshots of its key states with numbered pins, every control and its choices, the rough edges ranked, and a map of the source files, as one HTML page |
 
 Nothing here is tied to a company, a product, or a specific tracker. Ticket and code-review
@@ -128,10 +129,43 @@ Have a spec but no test cases?      → casely
 Have nothing but a URL?             → exploratory-web-testing → (Phase 4) casely → Qase CSV
 Have cases, want them automated?    → qa-automation (architecture + review) or playwright-robot (generate + self-heal)
 About to change a screen?           → ui-tour (see it, its controls and its rough edges first)
+Wondering what the repo is missing?  → repo-gap-audit (ranked gaps + feature ideas, no edits)
 ```
 
 `exploratory-web-testing` writes the observed-behaviour spec that `casely` then turns into a
 suite. `ticket-driven-qa` stands alone: it verifies one change end to end and files bugs.
+
+## repo-gap-audit
+
+```
+Scope + orient (README, docs, routes: what does it promise?)
+   → 5 scanners: unfinished business · dead ends & UX friction · recent momentum (git log)
+                 · blind spots & resilience · test & QA gaps
+   → reject noise (rubric + "who cares?", "grounded?", "owner reaction" tests)
+   → ICE score + S/M/L effort → top five, 2-3 feature suggestions, one "start here"
+```
+
+Read-only: it never edits the project. Every finding must cite a `path:line` the agent read, and
+"nothing high-leverage here" is an allowed answer. Replies in the user's language.
+
+### Test prompts
+
+The prompts in `skills/repo-gap-audit/evals/evals.json`, each run once with and once without the
+skill on three real repos (a Three.js game, an Astro/Svelte multi-tenant player, a FastAPI video
+backend scoped to `backend/`):
+
+| # | Prompt | What it checks |
+|---|---|---|
+| 1 | "apa yang kurang ya di repo lastwar ini? kasih saran fitur juga." | Indonesian phrasing, whole repo, feature suggestions |
+| 2 | "Do a gap analysis of players-revamp - what's half-built or broken, and what should we build next?" | Large repo with stale docs, recent-commit loose ends |
+| 3 | "what's missing in the backend/ folder of Clipper? mostly care about reliability and tests" | Scope limit and a category focus |
+
+First iteration: 100% of checks passed with the skill against 33% without, at about the same time
+(~5 minutes a run). Without the skill every report was a long unranked list (12-30 items) with
+partial evidence; with it, each gave a ranked top five with line-level evidence. The skill runs
+also found bugs the baselines missed: a write endpoint with no rate limit, Defense progress lost on
+tab close, cancelled jobs that cannot be resumed, and an LLM JSON parser reporting wrong-shaped data
+as success.
 
 ## ui-tour
 
@@ -171,7 +205,7 @@ baseline invented UI options the code does not have. The skill takes about twice
 ## Attribution
 
 - `ticket-driven-qa`, `exploratory-web-testing`, `qa-automation`, `playwright-robot`,
-  `technical-blogger`, `technical-blogger-reviewer`, `viral-ugc-ads`, `ui-tour` — Randy Maulana, MIT.
+  `technical-blogger`, `technical-blogger-reviewer`, `viral-ugc-ads`, `ui-tour`, `repo-gap-audit` — Randy Maulana, MIT.
 - `casely` — John Wayne, MIT, <https://github.com/JohnWayneeee/casely-qa-skill>. Vendored with
   its license intact; modifications listed in `skills/casely/NOTICE.md`.
 
