@@ -11,10 +11,11 @@ The core is three skills, covering the situations QA actually shows up in:
 | [`exploratory-web-testing`](skills/exploratory-web-testing) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
 | [`casely`](skills/casely) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
-Plus seven more:
+Plus eight more:
 
 | Skill | What it does |
 |---|---|
+| [`e2e-batch-loop`](skills/e2e-batch-loop) | Autonomous iterative test-automation loop across navigation sections: live visual inspection, catalogue gap analysis, 100% P0/P1 coverage, 1 MR per section, subagent code review, live execution, zero leftovers, and Linear reporting |
 | [`qa-automation`](skills/qa-automation) | Principal-SDET partner for Playwright automation: requirements analysis, web/api/mobile monorepo layout with a shared core, flat POMs, `APIRequestContext`, test plans, production-readiness review |
 | [`playwright-robot`](skills/playwright-robot) | Turns raw requirements into a Playwright suite by inspecting the live accessibility tree through the Playwright MCP, then self-heals failures |
 | [`technical-blogger`](skills/technical-blogger) | Writes and edits technical blog posts, deep-dives, investigations, and SOPs — knowledge representation and evidence hierarchy over storytelling |
