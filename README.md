@@ -11,7 +11,7 @@ The core is three skills, covering the situations QA actually shows up in:
 | [`exploratory-web-testing`](skills/exploratory-web-testing) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
 | [`casely`](skills/casely) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
-Plus eight more:
+Plus nine more:
 
 | Skill | What it does |
 |---|---|
@@ -23,6 +23,7 @@ Plus eight more:
 | [`viral-ugc-ads`](skills/viral-ugc-ads) | Short-form video ad scripts (TikTok, Reels, Shorts) tuned for Google Flow / Veo 3 |
 | [`repo-gap-audit`](skills/repo-gap-audit) | Answers "what's missing in this repo?": five scanners (unfinished work, dead ends, recent-commit loose ends, resilience, test gaps), a noise filter, ICE-ranked top five with `path:line` evidence, and grounded feature suggestions. Report only, no code changes |
 | [`ui-tour`](skills/ui-tour) | Before you change a screen: real screenshots of its key states with numbered pins, every control and its choices, the rough edges ranked, and a map of the source files, as one HTML page |
+| [`new-app-test-design`](skills/new-app-test-design) | A new app version or big feature set, from tickets to test design: today-vs-new comparison with a four-bucket case split, strategy and test plan, catalogue cases traced to ticket lines, fresh AC and edge-case reviewer passes, one blocked conflict ticket, one edited-in-place comment per ticket, a coverage page, and cases marked for automation. Resumes or repairs an earlier pass instead of redoing it |
 
 Nothing here is tied to a company, a product, or a specific tracker. Ticket and code-review
 platforms are handled by swappable adapters, and project specifics live in one file you fill in.

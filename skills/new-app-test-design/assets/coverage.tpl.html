@@ -1,0 +1,239 @@
+<title>__TITLE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Coverage page for new-app-test-design. build_coverage.py fills __TITLE__ and __DATA__; everything else is driven by D.config.
+   Layout: top bar, title, banners, one stat strip, search + filter pills, one table (feature, one column per ticket team, cases, priority, in review). */
+:root{
+  --bg:#f7f7f8; --surface:#ffffff; --fg:#16181d; --muted:#5f6672; --line:#e6e7ea; --head:#f3f4f6;
+  --accent:#d1202f; --accent-soft:#fdecec; --accent-fg:#ffffff;
+  --ok-bg:#e6f5ec; --ok-fg:#1d7a43; --ok-bar:#3bb26b;
+  --prog-bg:#fdf0d9; --prog-fg:#a0610a; --prog-bar:#f2b230;
+  --todo-bg:#eceef1; --todo-fg:#3f4652;
+  --back-fg:#5f6672;
+  --block-bg:#fde4e2; --block-fg:#b3261e;
+  --chip-bg:#f1f2f4; --chip-fg:#2b3039; --track:#e3e5e9;
+  --warn:#b45c00;
+  --shadow:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06);
+  color-scheme:light;
+  --f-body:"Inter",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.45}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.top{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.top-in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));min-height:56px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;white-space:nowrap}
+.logo{width:30px;height:30px;border-radius:7px;background:var(--accent);display:grid;place-items:center}
+nav{display:flex;gap:4px;flex:1 1 auto;overflow-x:auto}
+nav a{text-decoration:none;color:var(--muted);font-weight:500;padding:17px 12px 15px;border-bottom:3px solid transparent;white-space:nowrap}
+nav a[aria-current="page"]{color:var(--fg);font-weight:600;border-bottom-color:var(--accent)}
+nav a:hover{color:var(--fg)}
+.updated{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;white-space:nowrap}
+.wrap{max-width:1240px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
+h1{font-size:30px;font-weight:700;letter-spacing:-.01em;margin:0}
+.sub{color:var(--muted);margin:4px 0 0;font-size:15px}
+.rule{margin:12px 0 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--accent-soft);color:var(--fg);border-radius:10px;padding:10px 14px;font-size:14px}
+.rule.warn{background:#FDF3E1}
+.rule.warn b{background:#B26A00;color:#fff}
+.rule a{color:inherit;font-weight:600}
+.rule b{background:var(--accent);color:var(--accent-fg);font-size:12px;letter-spacing:.03em;padding:3px 9px;border-radius:999px;font-weight:600}
+.strip{background:var(--surface);border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));overflow:hidden}
+.st{display:flex;align-items:center;gap:16px;padding:18px 22px;min-width:0}
+.st + .st{border-left:1px solid var(--line)}
+.st svg{flex:none;color:var(--accent)}
+.st.dev svg{color:var(--muted)}
+.st b{display:block;font-size:30px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.st span{color:var(--muted);font-size:14px}
+.st.hot{background:var(--accent-soft)}
+.st.hot b{color:var(--accent)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search{flex:1 1 300px;min-width:0;position:relative}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search input{width:100%;padding:12px 14px 12px 42px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);font:inherit;font-size:15px;box-shadow:var(--shadow)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.f{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:8px 16px;font:inherit;font-weight:500;cursor:pointer;display:inline-flex;gap:8px;align-items:center;box-shadow:var(--shadow)}
+.f i{font-style:normal;font-variant-numeric:tabular-nums}
+.f[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.tbl{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1100px}
+th{text-align:left;font-weight:600;color:var(--muted);background:var(--head);padding:12px 16px;font-size:14px}
+td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:middle}
+td.area{width:24%}
+td.area strong{font-weight:600}
+.note{display:flex;gap:6px;align-items:center;color:var(--warn);font-size:12.5px;margin-top:3px}
+.note svg{flex:none}
+.tk{white-space:nowrap}
+.tk a{font-family:var(--f-mono);font-size:13.5px;text-decoration:none;margin-right:8px}
+.tk a:hover{color:var(--accent);text-decoration:underline}
+.pill{display:inline-block;font-size:12px;font-weight:500;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.p-review{background:var(--ok-bg);color:var(--ok-fg)}
+.p-prog{background:var(--prog-bg);color:var(--prog-fg)}
+.p-todo{background:var(--todo-bg);color:var(--todo-fg)}
+.p-back{background:transparent;color:var(--back-fg);border:1px dashed var(--back-fg)}
+.p-block{background:var(--block-bg);color:var(--block-fg)}
+.none{color:var(--muted);font-size:12.5px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;min-width:280px;max-width:420px}
+.chip{font-family:var(--f-mono);font-size:12px;padding:2px 8px;border-radius:5px;background:var(--chip-bg);color:var(--chip-fg);text-decoration:none;font-variant-numeric:tabular-nums}
+.chip:hover{outline:1px solid var(--accent)}
+.chip.p0{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.chip.dim{opacity:.3}
+.chip.p2{background:transparent;color:var(--muted);border:1px dashed var(--muted)}
+.chip.p3{background:transparent;color:var(--muted);border:1px dotted var(--muted);opacity:.85}
+.pb.p2,.pb.p3{background:transparent;color:var(--muted);border:1px dashed var(--line)}
+.pc{display:flex;gap:5px;flex-wrap:wrap;min-width:110px;max-width:140px}
+.pb{font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;font-variant-numeric:tabular-nums}
+.pb.p0{background:var(--accent-soft);color:var(--accent)}
+.pb.p1{background:var(--chip-bg);color:var(--chip-fg)}
+.pb.z{opacity:.35}
+.grp{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.grp > span{color:var(--muted);font-size:13px;font-weight:500}
+.rev{display:flex;align-items:center;gap:12px;min-width:150px}
+.track{flex:1;height:8px;border-radius:99px;background:var(--track);overflow:hidden}
+.track b{display:block;height:100%;border-radius:99px}
+.rev span{font-variant-numeric:tabular-nums;color:var(--muted);min-width:28px;text-align:right}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.legend{color:var(--muted);font-size:12.5px;margin:0}
+@media (max-width:640px){.st + .st{border-left:0;border-top:1px solid var(--line)} h1{font-size:24px}}
+</style>
+
+<header class="top"><div class="top-in">
+  <div class="brand"><span class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg></span><span id="brand"></span></div>
+  <nav aria-label="Sections" id="nav"></nav>
+  <div class="updated"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="updated"></span></div>
+</div></header>
+
+<main class="wrap">
+  <div>
+    <h1 id="h1"></h1>
+    <p class="sub" id="sub"></p>
+    <div id="banners"></div>
+  </div>
+
+  <section class="strip" id="stats" aria-label="Totals"></section>
+
+  <div class="bar">
+    <label class="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search feature, ticket or case" aria-label="Search feature, ticket or case"></label>
+    <div class="grp"><span>Status</span><div class="pills" id="filters" role="group" aria-label="Filter by ticket status"></div></div>
+    <div class="grp"><span>Priority</span><div class="pills" id="pfilters" role="group" aria-label="Filter by case priority"></div></div>
+    <div class="grp"><span>Cases</span><div class="pills" id="kfilters" role="group" aria-label="Filter by case type"></div></div>
+  </div>
+
+  <div class="tbl"><table>
+    <thead><tr id="thead"></tr></thead>
+    <tbody id="list"></tbody>
+  </table></div>
+  <p class="legend" id="legend"></p>
+</main>
+
+<script>
+// D = {config, rows, cases}. rows: [{group, area, tickets: [[id, status], ...], cases: [id, ...], note}].
+// cases: {id: {title, priority, scope, kind}}. config: see build_coverage.py --help.
+const D = __DATA__;
+const C = D.config;
+const ST = {"In Review":"p-review","Done":"p-review","In Progress":"p-prog","Todo":"p-todo","Backlog":"p-back","Blocked":"p-block"};
+const ORDER = C.statuses || ["In Review","In Progress","Todo","Blocked","Backlog"];
+const DONE = C.done_status || "In Review";
+const fill = (tpl, id) => tpl ? tpl.replace("{id}", encodeURIComponent(id)) : null;
+const team = id => String(id).split("-")[0];
+const TEAMS = C.teams && C.teams.length ? C.teams : [...new Set(D.rows.flatMap(r => r.tickets.map(t => team(t[0]))))];
+const TLABEL = C.team_labels || {};
+const tick = (r, tm) => r.tickets.filter(t => team(t[0]) === tm);
+const tickets = D.rows.flatMap(r => r.tickets);
+const info = c => D.cases[c] || {};
+const PR = c => info(c).priority || "P1";
+const KIND = c => info(c).kind || "functional";
+const KGROUP = {reg: c => info(c).scope !== "extended", edge: c => info(c).scope === "extended" && KIND(c)==="edge", sec: c => KIND(c)==="security"};
+let active = null, pactive = null, kactive = null;
+const inK = c => !kactive || KGROUP[kactive](c);
+const inP = c => !pactive || PR(c)===pactive;
+const PCLS = {P0:"p0",P1:"",P2:"p2",P3:"p3"};
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const link = (href, text) => href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(text)}</a>` : esc(text);
+const I = {
+  ticket:'<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M15.5 10.5h2.5M15.5 13.5h2.5"/></svg>',
+  layers:'<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12.5 9 5 9-5"/><path d="m3 16.5 9 5 9-5"/></svg>',
+  team:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18"/></svg>',
+  people:'<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.5 3.2-5.5 6.5-5.5s6 2 6.5 5.5"/><path d="M15.5 4.8a3.5 3.5 0 0 1 0 6.4M18 14.8c2 .8 3.2 2.6 3.5 5.2"/></svg>',
+  warn:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg>'
+};
+
+function chrome(){
+  document.getElementById("brand").textContent = C.brand || "QA";
+  document.getElementById("nav").innerHTML = `<a href="#" aria-current="page">${esc(C.title)}</a>` +
+    (C.nav||[]).map(n => `<a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.label)}</a>`).join("");
+  document.getElementById("updated").textContent = "Last updated: " + C.updated;
+  document.getElementById("h1").textContent = C.title;
+  document.getElementById("sub").textContent = C.subtitle || "";
+  document.getElementById("banners").innerHTML = (C.banners||[]).map(b =>
+    `<p class="rule ${b.kind==="warn"?"warn":""}"><b>${esc(b.label)}</b> ${esc(b.text)}${b.url?` ${link(b.url, b.link_text||b.url)}`:""}</p>`).join("");
+  document.getElementById("thead").innerHTML = "<th>Feature</th>" + TEAMS.map(tm=>`<th>${esc(TLABEL[tm]||tm)}</th>`).join("") +
+    "<th>Cases</th><th>Priority</th><th>" + esc(DONE) + "</th>";
+  document.getElementById("legend").textContent = C.legend ||
+    `A status filter shows a feature when any of its tickets has that status. "${DONE}" counts the feature's tickets in that status. Red chips are P0, grey P1, dashed P2 and dotted P3 (P2/P3 are edge cases, run by hand). Hover a chip for the case title.`;
+}
+
+function stats(){
+  const all = Object.keys(D.cases).filter(c => D.rows.some(r => r.cases.includes(c)));
+  const st = (icon,n,l,cls="") => `<div class="st ${cls}">${icon}<div><b>${n}</b><span>${esc(l)}</span></div></div>`;
+  const per = TEAMS.length > 1 ? TEAMS.map(tm => st(I.team, tickets.filter(t=>team(t[0])===tm).length, (TLABEL[tm]||tm)+" tickets","dev")).join("") : "";
+  document.getElementById("stats").innerHTML =
+    st(I.ticket,tickets.length,"Tickets with cases") + st(I.layers,all.length,"Test cases") + per +
+    `<div class="st"><span class="pb p0" style="font-size:15px;padding:6px 10px">P0</span><div><b>${all.filter(c=>PR(c)==="P0").length}</b><span>P0 cases</span></div></div>` +
+    st(I.people,tickets.filter(t=>t[1]===DONE).length,DONE+" now","hot");
+}
+
+function filters(){
+  const n = s => tickets.filter(t=>t[1]===s).length;
+  const btn = (s,label,c) => `<button class="f" type="button" aria-pressed="${active===s}" data-s="${s??""}">${esc(label)} <i>${c}</i></button>`;
+  document.getElementById("filters").innerHTML = btn(null,"All",tickets.length) + ORDER.filter(s=>n(s)).map(s=>btn(s,s,n(s))).join("");
+  document.querySelectorAll("#filters .f").forEach(b=>b.onclick=()=>{active=b.dataset.s||null;filters();render()});
+  const all = [...new Set(D.rows.flatMap(r=>r.cases))];
+  const pb = (p,label) => `<button class="f" type="button" aria-pressed="${pactive===p}" data-p="${p??""}">${label} <i>${p?all.filter(c=>PR(c)===p).length:all.length}</i></button>`;
+  document.getElementById("pfilters").innerHTML = pb(null,"All") + ["P0","P1","P2","P3"].map(p=>pb(p,p)).join("");
+  document.querySelectorAll("#pfilters .f").forEach(b=>b.onclick=()=>{pactive=b.dataset.p||null;filters();render()});
+  const kb = (k,label) => `<button class="f" type="button" aria-pressed="${kactive===k}" data-k="${k??""}">${label} <i>${k?all.filter(KGROUP[k]).length:all.length}</i></button>`;
+  document.getElementById("kfilters").innerHTML = kb(null,"All") + kb("reg","Regression (P0/P1)") + kb("edge","Edge cases") + kb("sec","Security");
+  document.querySelectorAll("#kfilters .f").forEach(b=>b.onclick=()=>{kactive=b.dataset.k||null;filters();render()});
+}
+
+const tk = ts => ts.length ? ts.map(t => `<div>${link(fill(C.ticket_url,t[0]), t[0])}<span class="pill ${ST[t[1]]||"p-todo"}">${esc(t[1])}</span></div>`).join("") : `<span class="none">no ticket</span>`;
+
+function rev(r){
+  const ts = r.tickets;
+  if(!ts.length) return `<span class="none">no ticket</span>`;
+  const done = ts.filter(t=>t[1]===DONE).length, pct = Math.round(done/ts.length*100);
+  const col = done===ts.length ? "var(--ok-bar)" : done ? "var(--prog-bar)" : "transparent";
+  return `<div class="rev" title="${done} of ${ts.length} tickets ${esc(DONE)}"><div class="track"><b style="width:${pct}%;background:${col}"></b></div><span>${done}/${ts.length}</span></div>`;
+}
+
+function pcell(r){
+  const n = p => r.cases.filter(c=>PR(c)===p).length;
+  return `<div class="pc">${["P0","P1","P2","P3"].filter(p=>n(p)).map(p=>`<span class="pb ${p.toLowerCase()}">${p} ${n(p)}</span>`).join("")}</div>`;
+}
+
+const short = c => C.id_prefix && String(c).startsWith(C.id_prefix) ? String(c).slice(C.id_prefix.length) : c;
+
+function render(){
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const rows = D.rows.filter(r => {
+    if(active && !r.tickets.some(t=>t[1]===active)) return false;
+    if((pactive||kactive) && !r.cases.some(c=>inP(c)&&inK(c))) return false;
+    if(!q) return true;
+    return [r.group||"", r.area, r.note||"", ...r.tickets.map(t=>t[0]), ...r.cases, ...r.cases.map(c=>info(c).title||"")].join(" ").toLowerCase().includes(q);
+  });
+  const cols = TEAMS.length + 4;
+  document.getElementById("list").innerHTML = rows.length ? rows.map(r=>`<tr>
+    <td class="area"><strong>${esc(r.area)}</strong>${r.note?`<div class="note">${I.warn}${esc(r.note)}</div>`:""}</td>
+    ${TEAMS.map(tm=>`<td class="tk">${tk(tick(r,tm))}</td>`).join("")}
+    <td><div class="chips">${r.cases.map(c=>{const h=fill(C.case_url,c);const cls=`chip ${PCLS[PR(c)]} ${(!inP(c)||!inK(c))?"dim":""}`;const ti=esc(c+" · "+PR(c)+(KIND(c)!=="functional"?" · "+KIND(c):"")+": "+(info(c).title||""));return h?`<a class="${cls}" href="${esc(h)}" target="_blank" rel="noopener" title="${ti}">${esc(short(c))}</a>`:`<span class="${cls}" title="${ti}">${esc(short(c))}</span>`}).join("")}</div></td>
+    <td>${pcell(r)}</td>
+    <td>${rev(r)}</td></tr>`).join("") : `<tr><td colspan="${cols}" class="empty">No feature matches. Clear the search or pick All.</td></tr>`;
+}
+
+document.getElementById("q").addEventListener("input", render);
+chrome(); stats(); filters(); render();
+</script>
