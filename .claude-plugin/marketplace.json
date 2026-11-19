@@ -8,7 +8,7 @@
     {
       "name": "qa-agent-skills",
       "description": "Tool-agnostic QA skills: ticket-driven QA runs, exploratory testing with no spec, spec-to-test-case generation (Casely), Playwright automation architecture, annotated UI tours before a redesign, and evidence-ranked repo gap audits.",
-      "version": "1.6.0",
+      "version": "1.7.0",
       "source": "./",
       "author": {
         "name": "Randy Maulana"
