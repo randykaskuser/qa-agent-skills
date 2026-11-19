@@ -33,7 +33,7 @@ Tickets in, five checkable outputs out: a today-vs-new comparison, a strategy an
 
 **Conflicts:** two tickets that disagree → one entry in the single conflict ticket ([references/conflict-ticket.md](references/conflict-ticket.md)), no case, no "on hold" case, not a ticket comment. Cases come after the ruling.
 
-**Publish:** comments per [references/comment-template.md](references/comment-template.md). Coverage page: `scripts/build_coverage.py --help` (rows: one per feature, any number of ticket teams), then the Artifact tool — republish to the stored URL.
+**Publish:** comments per [references/comment-template.md](references/comment-template.md) (keep an existing house format). Coverage page: `scripts/build_coverage.py --help` (rows: one per feature, any number of ticket teams), then the Artifact tool — republish to the stored URL.
 
 **Stop at phase 7.** Mark cases and open the ticket. Never write Maestro, Playwright or other flows here.
 
@@ -52,6 +52,8 @@ Tickets in, five checkable outputs out: a today-vs-new comparison, a strategy an
 | 3 steps, 1 expected paragraph | Pairs 1:1; `apply_patches.py` fails otherwise. |
 | Feature AC rated P2 | AC = P1; P0 only when the core flow breaks for everyone; edge = P2/P3. |
 | New comment on rerun; new artifact URL; new Confluence page | Edit the `Test cases (QA, updated …)` comment; same URL; next version. |
+| Reformatting every existing comment to the template | Keep the project's format; edit only what changed. |
+| P0 on every case of a feature | P0 = core flow broken for everyone; check the P0 share in the inventory (RESC: 50 → 18 after review). |
 | Inventing tags or the split without asking | Phase 2 gate. |
 | Writing automation specs "while we're here" | Phase 7 stops at marking. |
 | Redoing a pass someone started | Inventory first; fix only gaps and rule breaks. |
