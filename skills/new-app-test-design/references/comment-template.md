@@ -2,6 +2,10 @@
 
 One comment per ticket, owned by QA, edited on every rerun. The first line is fixed so a rerun can find it.
 
+## House format first
+
+If the project's earlier comments already follow a format (e.g. a case table with Priority and Change columns plus Steps / Proof lines), keep it. On a rerun, edit in that format; do not convert it to the template below. Check only that it carries what the template carries: every case with its priority and a link, the ticket lines not tested and why, and how to post proof. Use the template only when no format exists yet.
+
 ## Template
 
 ```markdown
