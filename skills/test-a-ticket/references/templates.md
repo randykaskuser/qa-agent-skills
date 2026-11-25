@@ -44,6 +44,7 @@ Dev ticket: <DEV-ID> (<who asked / why>). Related: <other ticket IDs + their sta
 ## Test run — <date> (<environments>)
 **Result (<N> checklist items): <p> pass · <f> fail · <b> blocked/partial/not run.**
 <one-sentence verdict>
+**Proof page:** <link>
 
 **Test data:** <records + IDs + links>. <what was changed on them>.
 

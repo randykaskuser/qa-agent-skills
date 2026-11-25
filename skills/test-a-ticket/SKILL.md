@@ -152,11 +152,12 @@ A developer must be able to reproduce from the card alone. Use the repro card in
 ## Phase 8: Report
 
 1. **Re-count before posting.** Count pass/fail/blocked per section against the actual checklist items. Totals that don't add up destroy trust in the rest.
-2. **Post one results comment** (template in `references/templates.md`), written in simple sentences. Bugs first, sorted by severity, then results per section, then test data and what you changed on QA records. If a posted comment turns out to be wrong, **edit it** instead of adding a second one.
-3. **Tick the checkboxes** that passed, one edit per item, anchored on each item's unique leading text (`- [ ] <text>`). Leave fails, blocked and partial items unticked and explain them in the comment. Tick "Done when" lines only if they are fully true.
-4. **Bug tickets:** list them as proposals (team, title, severity, one-line why) and ask. Create them only after approval, linked as related to both the QA and dev tickets. A backend bug goes to the backend team even when found through a frontend ticket.
-5. **Chat escalation:** only for critical or production-impacting findings. Draft the message (template in `references/templates.md`) and send it only after explicit approval, to the channel or person the user names.
-6. **Final chat reply:** verdict first ("source part ready / blocked by X"), then the top findings, what's blocked, and the test data created. Keep it short — the details live in the ticket. If the user wants lasting regression cases from this run, point them at `explore-app-without-spec`.
+2. **Build the proof page.** **REQUIRED SUB-SKILL:** use qa-agent-skills:build-proof-page (run type: ticket test). It is private and goes with the comment, so it needs no separate permission.
+3. **Post one results comment** (template in `references/templates.md`), written in simple sentences. Bugs first, sorted by severity, then results per section, then test data and what you changed on QA records. If a posted comment turns out to be wrong, **edit it** instead of adding a second one.
+4. **Tick the checkboxes** that passed, one edit per item, anchored on each item's unique leading text (`- [ ] <text>`). Leave fails, blocked and partial items unticked and explain them in the comment. Tick "Done when" lines only if they are fully true.
+5. **Bug tickets:** list them as proposals (team, title, severity, one-line why) and ask. Create them only after approval, linked as related to both the QA and dev tickets. A backend bug goes to the backend team even when found through a frontend ticket.
+6. **Chat escalation:** only for critical or production-impacting findings. Draft the message (template in `references/templates.md`) and send it only after explicit approval, to the channel or person the user names.
+7. **Final chat reply:** verdict first ("source part ready / blocked by X"), then the proof page link, the top findings, what's blocked, and the test data created. Keep it short — the details live in the ticket. If the user wants lasting regression cases from this run, point them at `explore-app-without-spec`.
 
 ## Phase 9: Clean up
 

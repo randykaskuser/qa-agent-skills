@@ -3,18 +3,20 @@
 Tool-agnostic QA skills for coding agents (Claude Code, Cowork, and anything else that reads
 `SKILL.md` files).
 
-The core is three skills, covering the situations QA actually shows up in:
+The core is four skills, covering the situations QA actually shows up in:
 
 | Skill | Use it when | Output |
 |---|---|---|
 | [`test-a-ticket`](skills/test-a-ticket) | There **is** a ticket and a code change to verify | A QA ticket, a test run against live environments, one results comment with reproducible bug reports |
 | [`explore-app-without-spec`](skills/explore-app-without-spec) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
+| [`consistency-check`](skills/consistency-check) | The same flow must match across web, Android, iOS or builds | Marked side-by-side screenshots judged against a named source of truth, then bugs per platform |
 | [`write-test-cases`](skills/write-test-cases) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
-Plus nine more:
+Plus ten more:
 
 | Skill | What it does |
 |---|---|
+| [`build-proof-page`](skills/build-proof-page) | One easy-to-read results page for a test run: verdict, what it was judged against, every item, the proof for each failure, what is open. Called by `test-a-ticket`, `explore-app-without-spec` and `consistency-check`; refuses a spec with a failure that has no source, date or proof |
 | [`automate-ticket-in-batches`](skills/automate-ticket-in-batches) | Autonomous iterative test-automation loop across navigation sections: live visual inspection, catalogue gap analysis, 100% P0/P1 coverage, 1 MR per section, subagent code review, live execution, zero leftovers, and Linear reporting |
 | [`automation-architecture`](skills/automation-architecture) | Principal-SDET partner for Playwright automation: requirements analysis, web/api/mobile monorepo layout with a shared core, flat POMs, `APIRequestContext`, test plans, production-readiness review |
 | [`write-playwright-tests`](skills/write-playwright-tests) | Turns raw requirements into a Playwright suite by inspecting the live accessibility tree through the Playwright MCP, then self-heals failures |
@@ -39,7 +41,7 @@ As a Claude Code plugin marketplace:
 
 Or just clone it and point your agent at the `skills/` folder.
 
-## Why the core three exist
+## Why the core skills exist
 
 **Most QA bugs are not missed checks. They are checks done in the wrong place.**
 
@@ -123,13 +125,15 @@ it also builds a ready-to-run Postman collection.
 by John Wayne (MIT). See [`skills/write-test-cases/NOTICE.md`](skills/write-test-cases/NOTICE.md) for exactly what
 changed and how to diff against upstream.
 
-## How the three fit together
+## How they fit together
 
 ```
 Have a ticket + a diff?             → test-a-ticket
 Have a spec but no test cases?      → write-test-cases
 Have nothing but a URL?             → explore-app-without-spec → (Phase 4) write-test-cases → Qase CSV
 Have cases, want them automated?    → automation-architecture (architecture + review) or write-playwright-tests (generate + self-heal)
+Same flow on several platforms?     → consistency-check (what differs, judged against a named source)
+Results someone else must trust?    → build-proof-page (called by the testing skills; one page: verdict, every item, proof)
 About to change a screen?           → annotate-screen (see it, its controls and its rough edges first)
 Wondering what the repo is missing?  → find-repo-gaps (ranked gaps + feature ideas, no edits)
 ```
@@ -208,7 +212,7 @@ baseline invented UI options the code does not have. The skill takes about twice
 
 - `test-a-ticket`, `explore-app-without-spec`, `automation-architecture`, `write-playwright-tests`,
   `write-tech-article`, `review-tech-article`, `write-ugc-video-ad`, `annotate-screen`, `find-repo-gaps`,
-  `automate-ticket-in-batches`, `design-tests-for-new-app` — Randy Maulana, MIT.
+  `automate-ticket-in-batches`, `design-tests-for-new-app`, `consistency-check`, `build-proof-page` — Randy Maulana, MIT.
 - `write-test-cases` — John Wayne, MIT, <https://github.com/JohnWayneeee/casely-qa-skill>. Vendored with
   its license intact; modifications listed in `skills/write-test-cases/NOTICE.md`.
 

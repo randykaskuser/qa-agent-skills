@@ -1,0 +1,104 @@
+{
+  "title": "Checkout rework: test run",
+  "eyebrow": "QA-12 · Checkout rework",
+  "lead": "<strong>Not ready: 1 of 4 checks failed.</strong> Staging, build 2.4.1, 19 Nov 2026.",
+  "columns": [
+    "Result"
+  ],
+  "stats": [
+    {
+      "label": "Passed",
+      "count": "ok"
+    },
+    {
+      "label": "Failed",
+      "count": "x"
+    },
+    {
+      "label": "Blocked or not run",
+      "count": "b"
+    }
+  ],
+  "rule": {
+    "title": "Judged against",
+    "items": [
+      "Acceptance criteria in SHOP-31",
+      "Request and response seen on staging"
+    ]
+  },
+  "rows": [
+    {
+      "item": "Save a new address",
+      "cells": [
+        [
+          "ok",
+          "PATCH 200, address shown on the order page"
+        ]
+      ]
+    },
+    {
+      "item": "Clear the discount code",
+      "cells": [
+        [
+          "x",
+          "Old code still applied after reload"
+        ]
+      ],
+      "source": "SHOP-31 AC3",
+      "ticket": "proposed"
+    },
+    {
+      "item": "Order page shows the new total",
+      "cells": [
+        [
+          "ok",
+          "$51.25"
+        ]
+      ]
+    },
+    {
+      "item": "Total in the iOS app",
+      "cells": [
+        [
+          "b",
+          "Blocked: no test build"
+        ]
+      ]
+    }
+  ],
+  "figures": [
+    {
+      "title": "Discount code survives a clear",
+      "severity": "High",
+      "why": "The clear request sends no value, so the old code stays.",
+      "tested": [
+        "[QA] order 8841"
+      ],
+      "steps": [
+        "Open order 8841",
+        "Clear the discount field",
+        "Save and reload"
+      ],
+      "expected": "Field empty, total without discount",
+      "actual": "Code SAVE10 is back",
+      "evidence": "PATCH /api/orders/8841 {\"note\":\"\"} -> 200\nGET /api/orders/8841 -> {\"discount\":\"SAVE10\"}",
+      "date": "19 Nov 2026, staging 2.4.1"
+    }
+  ],
+  "table": {
+    "heading": "Test data",
+    "columns": [
+      "Record",
+      "Left as"
+    ],
+    "rows": [
+      [
+        "[QA] order 8841",
+        "hidden, discount SAVE10"
+      ]
+    ]
+  },
+  "open": [
+    "<strong>iOS total:</strong> blocked until a test build exists."
+  ]
+}
