@@ -9,6 +9,7 @@ The core is three skills, covering the situations QA actually shows up in:
 |---|---|---|
 | [`test-a-ticket`](skills/test-a-ticket) | There **is** a ticket and a code change to verify | A QA ticket, a test run against live environments, one results comment with reproducible bug reports |
 | [`explore-app-without-spec`](skills/explore-app-without-spec) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
+| [`consistency-check`](skills/consistency-check) | The same flow must match across web, Android, iOS or builds | Marked side-by-side screenshots judged against a named source of truth, then bugs per platform |
 | [`write-test-cases`](skills/write-test-cases) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
 Plus nine more:
