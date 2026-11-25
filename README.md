@@ -7,23 +7,23 @@ The core is three skills, covering the situations QA actually shows up in:
 
 | Skill | Use it when | Output |
 |---|---|---|
-| [`ticket-driven-qa`](skills/ticket-driven-qa) | There **is** a ticket and a code change to verify | A QA ticket, a test run against live environments, one results comment with reproducible bug reports |
-| [`exploratory-web-testing`](skills/exploratory-web-testing) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
-| [`casely`](skills/casely) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
+| [`test-a-ticket`](skills/test-a-ticket) | There **is** a ticket and a code change to verify | A QA ticket, a test run against live environments, one results comment with reproducible bug reports |
+| [`explore-app-without-spec`](skills/explore-app-without-spec) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
+| [`write-test-cases`](skills/write-test-cases) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
 Plus nine more:
 
 | Skill | What it does |
 |---|---|
-| [`e2e-batch-loop`](skills/e2e-batch-loop) | Autonomous iterative test-automation loop across navigation sections: live visual inspection, catalogue gap analysis, 100% P0/P1 coverage, 1 MR per section, subagent code review, live execution, zero leftovers, and Linear reporting |
-| [`qa-automation`](skills/qa-automation) | Principal-SDET partner for Playwright automation: requirements analysis, web/api/mobile monorepo layout with a shared core, flat POMs, `APIRequestContext`, test plans, production-readiness review |
-| [`playwright-robot`](skills/playwright-robot) | Turns raw requirements into a Playwright suite by inspecting the live accessibility tree through the Playwright MCP, then self-heals failures |
-| [`technical-blogger`](skills/technical-blogger) | Writes and edits technical blog posts, deep-dives, investigations, and SOPs — knowledge representation and evidence hierarchy over storytelling |
-| [`technical-blogger-reviewer`](skills/technical-blogger-reviewer) | Reviews a drafted article before publish — hunts Indonesian literal-translation calques ("rancu"), keeps technical terms in English, cuts wordiness, re-verifies claims, and returns the fixed draft plus a review log |
-| [`viral-ugc-ads`](skills/viral-ugc-ads) | Short-form video ad scripts (TikTok, Reels, Shorts) tuned for Google Flow / Veo 3 |
-| [`repo-gap-audit`](skills/repo-gap-audit) | Answers "what's missing in this repo?": five scanners (unfinished work, dead ends, recent-commit loose ends, resilience, test gaps), a noise filter, ICE-ranked top five with `path:line` evidence, and grounded feature suggestions. Report only, no code changes |
-| [`ui-tour`](skills/ui-tour) | Before you change a screen: real screenshots of its key states with numbered pins, every control and its choices, the rough edges ranked, and a map of the source files, as one HTML page |
-| [`new-app-test-design`](skills/new-app-test-design) | A new app version or big feature set, from tickets to test design: today-vs-new comparison with a four-bucket case split, strategy and test plan, catalogue cases traced to ticket lines, fresh AC and edge-case reviewer passes, one blocked conflict ticket, one edited-in-place comment per ticket, a coverage page, and cases marked for automation. Resumes or repairs an earlier pass instead of redoing it |
+| [`automate-ticket-in-batches`](skills/automate-ticket-in-batches) | Autonomous iterative test-automation loop across navigation sections: live visual inspection, catalogue gap analysis, 100% P0/P1 coverage, 1 MR per section, subagent code review, live execution, zero leftovers, and Linear reporting |
+| [`automation-architecture`](skills/automation-architecture) | Principal-SDET partner for Playwright automation: requirements analysis, web/api/mobile monorepo layout with a shared core, flat POMs, `APIRequestContext`, test plans, production-readiness review |
+| [`write-playwright-tests`](skills/write-playwright-tests) | Turns raw requirements into a Playwright suite by inspecting the live accessibility tree through the Playwright MCP, then self-heals failures |
+| [`write-tech-article`](skills/write-tech-article) | Writes and edits technical blog posts, deep-dives, investigations, and SOPs — knowledge representation and evidence hierarchy over storytelling |
+| [`review-tech-article`](skills/review-tech-article) | Reviews a drafted article before publish — hunts Indonesian literal-translation calques ("rancu"), keeps technical terms in English, cuts wordiness, re-verifies claims, and returns the fixed draft plus a review log |
+| [`write-ugc-video-ad`](skills/write-ugc-video-ad) | Short-form video ad scripts (TikTok, Reels, Shorts) tuned for Google Flow / Veo 3 |
+| [`find-repo-gaps`](skills/find-repo-gaps) | Answers "what's missing in this repo?": five scanners (unfinished work, dead ends, recent-commit loose ends, resilience, test gaps), a noise filter, ICE-ranked top five with `path:line` evidence, and grounded feature suggestions. Report only, no code changes |
+| [`annotate-screen`](skills/annotate-screen) | Before you change a screen: real screenshots of its key states with numbered pins, every control and its choices, the rough edges ranked, and a map of the source files, as one HTML page |
+| [`design-tests-for-new-app`](skills/design-tests-for-new-app) | A new app version or big feature set, from tickets to test design: today-vs-new comparison with a four-bucket case split, strategy and test plan, catalogue cases traced to ticket lines, fresh AC and edge-case reviewer passes, one blocked conflict ticket, one edited-in-place comment per ticket, a coverage page, and cases marked for automation. Resumes or repairs an earlier pass instead of redoing it |
 
 Nothing here is tied to a company, a product, or a specific tracker. Ticket and code-review
 platforms are handled by swappable adapters, and project specifics live in one file you fill in.
@@ -44,7 +44,7 @@ Or just clone it and point your agent at the `skills/` folder.
 **Most QA bugs are not missed checks. They are checks done in the wrong place.**
 
 A change lands in an admin panel, a CMS, a dashboard. It is easy to test that form until it
-shines and never look at the page where a user would actually see the result. `ticket-driven-qa`
+shines and never look at the page where a user would actually see the result. `test-a-ticket`
 is built around one rule that fixes this:
 
 > Every source check gets at least one consumer check, or is marked **blocked** with a reason.
@@ -54,13 +54,13 @@ The second rule is about the other half of wasted QA time — false alarms:
 > Isolate before you call it a bug. Use a control record, change one variable at a time, and
 > re-check your own last action.
 
-And the third, in `exploratory-web-testing`:
+And the third, in `explore-app-without-spec`:
 
 > Observed behaviour is not intended behaviour. Findings are bucketed as confirmed, question,
 > or anomaly — only confirmed ones become test cases, so a defect never gets locked into the
 > regression suite as an expected result.
 
-## ticket-driven-qa
+## test-a-ticket
 
 ```
 Plan: ticket + MR/PR diffs → what is actually deployed → the change → surfaces map → QA ticket
@@ -81,7 +81,7 @@ affected. A bug report with only a description is not accepted by this skill.
 - `references/adapters/test-management.md` — Qase, TestRail, Zephyr (optional)
 
 **Setting it up for your project:** copy
-`skills/ticket-driven-qa/references/environment-map.template.md` to `.claude/qa-environment-map.md` in your project and fill
+`skills/test-a-ticket/references/environment-map.template.md` to `.claude/qa-environment-map.md` in your project and fill
 it in — environments, IDs, endpoints, share-link format, and the gotchas that cost you an hour
 the first time. That file is the whole project-specific surface area. Don't put secrets in it.
 
@@ -91,7 +91,7 @@ image uploads, save flows, dirty state), `references/browser-techniques.md`, and
 failures, artificial delays, generated test images of any size, file-input injection, rich-HTML
 paste, an og-tag checker that verifies the image actually loads, and a toast watcher.
 
-## exploratory-web-testing
+## explore-app-without-spec
 
 ```
 Rules of engagement → Recon (inventory, shown to you)
@@ -103,7 +103,7 @@ Rules of engagement → Recon (inventory, shown to you)
 ### Qase export
 
 ```bash
-python skills/exploratory-web-testing/scripts/to_qase_csv.py \
+python skills/explore-app-without-spec/scripts/to_qase_csv.py \
   results qase_import.csv --suite "Client / Area"
 ```
 
@@ -112,32 +112,32 @@ Qase's importer will not remap headers, so the converter emits Qase's own column
 picks up custom fields and your Qase version's step format. Pure standard library, no
 dependencies, no network calls.
 
-## casely
+## write-test-cases (Casely)
 
 A **Virtual QA Lead**: hand it a requirements document (PDF, DOCX, XLSX, TXT, MD, or pasted
 text) and it produces a style guide, a test plan with one approval gate, atomic test cases, and
 an Excel export ready for TestRail/Qase/Zephyr import. When the requirements describe an API,
 it also builds a ready-to-run Postman collection.
 
-`casely` is a vendored, lightly modified copy of [Casely](https://github.com/JohnWayneeee/casely-qa-skill)
-by John Wayne (MIT). See [`skills/casely/NOTICE.md`](skills/casely/NOTICE.md) for exactly what
+`write-test-cases` is a vendored, lightly modified copy of [Casely](https://github.com/JohnWayneeee/casely-qa-skill)
+by John Wayne (MIT). See [`skills/write-test-cases/NOTICE.md`](skills/write-test-cases/NOTICE.md) for exactly what
 changed and how to diff against upstream.
 
 ## How the three fit together
 
 ```
-Have a ticket + a diff?             → ticket-driven-qa
-Have a spec but no test cases?      → casely
-Have nothing but a URL?             → exploratory-web-testing → (Phase 4) casely → Qase CSV
-Have cases, want them automated?    → qa-automation (architecture + review) or playwright-robot (generate + self-heal)
-About to change a screen?           → ui-tour (see it, its controls and its rough edges first)
-Wondering what the repo is missing?  → repo-gap-audit (ranked gaps + feature ideas, no edits)
+Have a ticket + a diff?             → test-a-ticket
+Have a spec but no test cases?      → write-test-cases
+Have nothing but a URL?             → explore-app-without-spec → (Phase 4) write-test-cases → Qase CSV
+Have cases, want them automated?    → automation-architecture (architecture + review) or write-playwright-tests (generate + self-heal)
+About to change a screen?           → annotate-screen (see it, its controls and its rough edges first)
+Wondering what the repo is missing?  → find-repo-gaps (ranked gaps + feature ideas, no edits)
 ```
 
-`exploratory-web-testing` writes the observed-behaviour spec that `casely` then turns into a
-suite. `ticket-driven-qa` stands alone: it verifies one change end to end and files bugs.
+`explore-app-without-spec` writes the observed-behaviour spec that `write-test-cases` then turns into a
+suite. `test-a-ticket` stands alone: it verifies one change end to end and files bugs.
 
-## repo-gap-audit
+## find-repo-gaps
 
 ```
 Scope + orient (README, docs, routes: what does it promise?)
@@ -152,7 +152,7 @@ Read-only: it never edits the project. Every finding must cite a `path:line` the
 
 ### Test prompts
 
-The prompts in `skills/repo-gap-audit/evals/evals.json`, each run once with and once without the
+The prompts in `skills/find-repo-gaps/evals/evals.json`, each run once with and once without the
 skill on three real repos (a Three.js game, an Astro/Svelte multi-tenant player, a FastAPI video
 backend scoped to `backend/`):
 
@@ -169,7 +169,7 @@ also found bugs the baselines missed: a write endpoint with no rate limit, Defen
 tab close, cancelled jobs that cannot be resumed, and an LLM JSON parser reporting wrong-shaped data
 as success.
 
-## ui-tour
+## annotate-screen
 
 ```
 Project notes (.claude/ui-tour.md) → read the screen's code → open it with real data
@@ -179,10 +179,10 @@ Project notes (.claude/ui-tour.md) → read the screen's code → open it with r
 
 Works on any web app, and on the web part of an Electron app. Project specifics (how to start
 the app, which record to open, processes never to kill) live in `.claude/ui-tour.md`; copy
-`skills/ui-tour/references/project-notes.template.md` there, or let the first tour write it.
+`skills/annotate-screen/references/project-notes.template.md` there, or let the first tour write it.
 
 ```bash
-python skills/ui-tour/scripts/build_tour.py tour.json screen-tour.html
+python skills/annotate-screen/scripts/build_tour.py tour.json screen-tour.html
 ```
 
 The spec format is in `SKILL.md`. Images are embedded, so the page is one file you can send.
@@ -190,7 +190,7 @@ Cropping needs Pillow; without it the full screenshots are embedded and the pins
 
 ### Test prompts
 
-The prompts in `skills/ui-tour/evals/evals.json`, each run once with and once without the skill
+The prompts in `skills/annotate-screen/evals/evals.json`, each run once with and once without the skill
 on a real Next.js + FastAPI app:
 
 | # | Prompt | What it checks |
@@ -206,11 +206,11 @@ baseline invented UI options the code does not have. The skill takes about twice
 
 ## Attribution
 
-- `ticket-driven-qa`, `exploratory-web-testing`, `qa-automation`, `playwright-robot`,
-  `technical-blogger`, `technical-blogger-reviewer`, `viral-ugc-ads`, `ui-tour`, `repo-gap-audit`,
-  `e2e-batch-loop`, `new-app-test-design` — Randy Maulana, MIT.
-- `casely` — John Wayne, MIT, <https://github.com/JohnWayneeee/casely-qa-skill>. Vendored with
-  its license intact; modifications listed in `skills/casely/NOTICE.md`.
+- `test-a-ticket`, `explore-app-without-spec`, `automation-architecture`, `write-playwright-tests`,
+  `write-tech-article`, `review-tech-article`, `write-ugc-video-ad`, `annotate-screen`, `find-repo-gaps`,
+  `automate-ticket-in-batches`, `design-tests-for-new-app` — Randy Maulana, MIT.
+- `write-test-cases` — John Wayne, MIT, <https://github.com/JohnWayneeee/casely-qa-skill>. Vendored with
+  its license intact; modifications listed in `skills/write-test-cases/NOTICE.md`.
 
 ## License
 
