@@ -99,6 +99,10 @@ observed behaviours as numbered requirement-shaped statements with stable IDs (`
 data and states involved, the API calls behind it, and separate clearly-marked sections for
 open questions and anomalies.
 
+Show the session on one page. **REQUIRED SUB-SKILL:** use qa-agent-skills:build-proof-page (run
+type: exploration), with `legend` set to confirmed / question / anomaly and unexplored areas under
+open items. `observed_spec.md` stays the input for the test cases; the page is for people.
+
 **Show the questions and anomalies to the user and wait.** Their answers change which observed
 behaviours are safe to turn into test cases. Going straight to case generation with unresolved
 questions is how bugs get canonised.
