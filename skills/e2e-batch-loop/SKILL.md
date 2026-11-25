@@ -56,7 +56,7 @@ An autonomous, iterative test-automation engine that takes an epic, ticket, or c
  9. Post Scannable Linear Comment
          │
          ▼
-10. Update claude-progress.md & Catalogue status
+10. Update progress record & Catalogue status
          │
          ▼
 [Next Section in Ticket Scope]
@@ -120,7 +120,7 @@ Post a progress comment to the Linear ticket following the team's strict formatt
 - **No conversational filler** (no "I'm pleased to report", "Hope this helps").
 
 ### Step 10: Progress Tracking & Loop Continuation
-- Update `claude-progress.md` after every section, not once at the end of the ticket, with the completed section and the next target.
+- Record the completed section and the next target after every section, not once at the end of the ticket, in the place the `progress` setting names. Without that setting, follow the repo's AGENTS.md or CLAUDE.md; create no new progress file.
 - Update catalogue YAML: set `automation: automated` for all completed cases.
 - If more sections remain in the ticket, immediately loop to Step 1 for the next section.
 - If all sections in the ticket are complete:
@@ -143,4 +143,5 @@ Read the `## E2E batch settings` block in the repo's CLAUDE.md. If it is missing
 - live_test: <command>
 - cleanup: <command>
 - safety: <naming prefix, flags, date limits, test org>
+- progress: <file and field that record the session state>
 ```
