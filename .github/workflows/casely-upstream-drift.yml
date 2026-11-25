@@ -1,8 +1,8 @@
 name: Casely upstream drift check
 
-# skills/casely is a vendored copy of JohnWayneeee/casely-qa-skill. Once a month,
+# skills/write-test-cases is a vendored copy of JohnWayneeee/casely-qa-skill. Once a month,
 # compare it against upstream and open (or update) an issue if upstream has moved.
-# See skills/casely/NOTICE.md and .github/scripts/casely_drift.sh.
+# See skills/write-test-cases/NOTICE.md and .github/scripts/casely_drift.sh.
 
 on:
   schedule:
@@ -29,17 +29,17 @@ jobs:
       - name: Diff against vendored copy
         id: diff
         run: |
-          .github/scripts/casely_drift.sh upstream skills/casely > drift.diff
+          .github/scripts/casely_drift.sh upstream skills/write-test-cases > drift.diff
           echo "upstream_sha=$(git -C upstream rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           echo "upstream_version=$(grep -m1 -oE 'version: "[^"]+"' upstream/skill/casely/SKILL.md | cut -d'"' -f2)" >> "$GITHUB_OUTPUT"
-          echo "local_version=$(grep -m1 -oE 'version: "[^"]+"' skills/casely/SKILL.md | cut -d'"' -f2)" >> "$GITHUB_OUTPUT"
+          echo "local_version=$(grep -m1 -oE 'version: "[^"]+"' skills/write-test-cases/SKILL.md | cut -d'"' -f2)" >> "$GITHUB_OUTPUT"
           if [ -s drift.diff ]; then
             echo "drifted=true" >> "$GITHUB_OUTPUT"
-            echo "::warning::skills/casely has drifted from upstream"
+            echo "::warning::skills/write-test-cases has drifted from upstream"
             cat drift.diff
           else
             echo "drifted=false" >> "$GITHUB_OUTPUT"
-            echo "skills/casely matches upstream ${UPSTREAM_REPO}@$(git -C upstream rev-parse --short HEAD)"
+            echo "skills/write-test-cases matches upstream ${UPSTREAM_REPO}@$(git -C upstream rev-parse --short HEAD)"
           fi
 
       - name: Open or update issue
@@ -59,13 +59,13 @@ jobs:
 
           {
             echo "Upstream: https://github.com/${UPSTREAM_REPO}/tree/${UPSTREAM_SHA} (version \`${UPSTREAM_VERSION}\`)"
-            echo "Vendored: \`skills/casely\` (version \`${LOCAL_VERSION}\`)"
+            echo "Vendored: \`skills/write-test-cases\` (version \`${LOCAL_VERSION}\`)"
             echo "Checked: $(date -u +%Y-%m-%d)"
             echo
             echo "The diff below is upstream (\`-\`) vs vendored (\`+\`), *after* applying the two intentional"
-            echo "changes listed in \`skills/casely/NOTICE.md\`, so everything shown is real upstream movement."
+            echo "changes listed in \`skills/write-test-cases/NOTICE.md\`, so everything shown is real upstream movement."
             echo
-            echo "To pull it in: copy \`skill/casely/\` from upstream over \`skills/casely/\`, re-apply the"
+            echo "To pull it in: copy \`skill/casely/\` from upstream over \`skills/write-test-cases/\`, re-apply the"
             echo "NOTICE.md changes, update the version in NOTICE.md, and re-run this workflow to confirm it's clean."
             echo
             echo '```diff'
