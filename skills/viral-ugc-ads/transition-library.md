@@ -1,6 +1,6 @@
 # Transition & Visual Pacing Library
 
-Transitions maintain the viewer's attention by constantly resetting their visual cortex. A static shot longer than 3 seconds kills retention.
+Transitions maintain the viewer's attention by constantly resetting their visual cortex. A static shot longer than 2.5 seconds kills retention.
 
 ## Google Flow Prompting for Transitions
 Google Flow doesn't inherently understand "jump cut." You must describe the *effect* of the transition in the camera movement or action.
@@ -35,8 +35,8 @@ Google Flow doesn't inherently understand "jump cut." You must describe the *eff
 - **How to prompt it**: "Three UI notification bubbles pop onto the screen in rapid succession."
 - **When to use**: Social Proof (Scene 5) or escalating Pain (Scene 2).
 
-## The 3-Second Rule
-If a scene is listed as 6 seconds long, you MUST include a visual change at the 3-second mark.
-**Example**:
-- 0-3s: Medium shot of actor speaking.
-- 3-6s: Zoom in slightly, overlay text appears on the left side of the screen.
+## The 2.5-Second Rule
+Change the visual at least every 2.5 seconds (see `cinematic-rules.md`).
+**Example** for a 5-second scene:
+- 0-2.5s: Medium shot of actor speaking.
+- 2.5-5s: Zoom in slightly, overlay text appears on the left side of the screen.

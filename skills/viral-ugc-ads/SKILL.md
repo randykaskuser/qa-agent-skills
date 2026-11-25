@@ -6,17 +6,17 @@ description: Use when generating short-form video ad scripts (TikTok, Reels, Sho
 # Viral UGC Ads Script Generator v3 (The Blueprint Edition)
 
 ## Overview
-This skill operates as a production-grade Creative Director. It relies on a strict **Planning Layer** and **Constraint Enforcement**. It does not jump straight to writing. It calculates, plans, drafts, and ruthlessly critiques.
+This skill operates as a production-grade Creative Director. It plans the scene timing first, drafts to that plan, then checks the draft against the brief.
 
 ## Core Directives
-1. **Never start writing immediately.** You MUST build a Scene Blueprint first.
-2. **Obey Hard Constraints.** If the user asks for 90 seconds and 9 scenes, you output EXACTLY 90 seconds and 9 scenes.
+1. **Blueprint first.** Build the Scene Blueprint before the script, because the timing decides what each scene can hold.
+2. **Match the brief exactly.** A brief for 90 seconds and 9 scenes gets 90 seconds and 9 scenes.
 3. **Physical Visuals.** Google Flow wants physical action (e.g., "Actor taps screen, graph collapses"), not just camera lenses.
-4. **Ruthless Self-Critique.** If the draft fails the constraint check, you MUST rewrite it. No excuses.
+4. **Check before delivering.** Fix any draft that misses a constraint, then deliver the corrected version.
 
 ## The Generation Pipeline
 
-When generating a script, you MUST execute these steps in order and explicitly show your work in the response:
+Work through these steps in order. The response contains the Scene Blueprint, the chosen framework and hook with a one-line reason each, the constraint check, and the script.
 
 ### Step 1: Constraint Extraction & Validation
 Read the user's brief. Extract: `Duration`, `Scene Count`, `Platform`, `Audience`, `Language`, `Product`. 
@@ -28,7 +28,7 @@ Map the emotional arc across the requested number of scenes.
 
 ### Step 3: Story Engine & Hook Selection
 Consult `workflow.md` to select the philosophical framework.
-Consult `hook-library.md` to generate 3 candidate hooks, score them, and pick the winner.
+Consult `hook-library.md` to draft 3 candidate hooks and pick the strongest.
 
 ### Step 4: Script Drafting
 Draft the script using:
@@ -37,8 +37,8 @@ Draft the script using:
 
 ### Step 5: Creative Director & Constraint Review
 Consult `self-critique.md`.
-Run the Hard Constraint Check (Expected vs Actual). If it fails, state `FAIL - Rewrite Required` and generate again.
-Score the creative elements. If any score < 8/10, rewrite.
+Run the Hard Constraint Check (Expected vs Actual) and rewrite whatever misses.
+Answer the creative review questions and rewrite the weak sections.
 
 ### Step 6: Final Output
 Output the finalized, constraint-validated script.

@@ -12,7 +12,7 @@ Tickets in, five checkable outputs out: a today-vs-new comparison, a strategy an
 ## Start here, every time
 
 1. **Settings.** Read the `## Test design settings` block in the repo's CLAUDE.md. Format and fallback: [references/strategy-template.md](references/strategy-template.md#settings-block). Missing → ask once for the four values and propose the block.
-2. **Inventory (resume / repair mode).** Before any write, look for earlier work on this project: comparison and strategy docs, sweep doc, catalogue cases carrying the project tag (id range), Linear comments starting `Test cases (QA, updated`, the coverage artifact URL, the Confluence plan and its version, a conflict ticket, scoping / plan / automation tickets. Run `scripts/apply_patches.py <catalogue> --prefix <P> --check --ids <range>`.
+2. **Inventory (resume / repair mode).** Before any write, look for earlier work on this project: comparison and strategy docs, sweep doc, catalogue cases carrying the project tag (id range), Linear comments starting `Test cases (QA, updated`, the coverage artifact URL, the Confluence plan and its version, a conflict ticket, scoping / plan / automation tickets. Run `python ${CLAUDE_PLUGIN_ROOT}/skills/new-app-test-design/scripts/apply_patches.py <catalogue> --prefix <P> --check --ids <range>`.
 3. **Report a table** — output, exists (link), missing, breaks a rule — then continue from the first phase with a gap. Fix only what is missing or broken. Existing outputs are edited in place: same comment, same artifact URL, next plan version, same conflict ticket.
 
 ## Phases
@@ -33,14 +33,14 @@ Tickets in, five checkable outputs out: a today-vs-new comparison, a strategy an
 
 **Conflicts:** two tickets that disagree → one entry in the single conflict ticket ([references/conflict-ticket.md](references/conflict-ticket.md)), no case, no "on hold" case, not a ticket comment. Cases come after the ruling.
 
-**Publish:** comments per [references/comment-template.md](references/comment-template.md) (keep an existing house format). Coverage page: `scripts/build_coverage.py --help` (rows: one per feature, any number of ticket teams), then the Artifact tool — republish to the stored URL.
+**Publish:** comments per [references/comment-template.md](references/comment-template.md) (keep an existing house format). Coverage page: `python ${CLAUDE_PLUGIN_ROOT}/skills/new-app-test-design/scripts/build_coverage.py --help` (rows: one per feature, any number of ticket teams), then the Artifact tool — republish to the stored URL.
 
 **Stop at phase 7.** Mark cases and open the ticket. Never write Maestro, Playwright or other flows here.
 
 ## Hand-offs
 
 - `confluence-writer` — the test plan page and each version bump.
-- The project's knowledge skill (e.g. `audiospace-qa:audiospace-knowledge`) — real field, route and endpoint names for steps.
+- The project's knowledge skill, when one is installed — real field, route and endpoint names for steps.
 - `artifact-design` — before the comparison or coverage page.
 
 ## Common mistakes
@@ -53,7 +53,7 @@ Tickets in, five checkable outputs out: a today-vs-new comparison, a strategy an
 | Feature AC rated P2 | AC = P1; P0 only when the core flow breaks for everyone; edge = P2/P3. |
 | New comment on rerun; new artifact URL; new Confluence page | Edit the `Test cases (QA, updated …)` comment; same URL; next version. |
 | Reformatting every existing comment to the template | Keep the project's format; edit only what changed. |
-| P0 on every case of a feature | P0 = core flow broken for everyone; check the P0 share in the inventory (RESC: 50 → 18 after review). |
+| P0 on every case of a feature | P0 = core flow broken for everyone; check the P0 share in the inventory. |
 | Inventing tags or the split without asking | Phase 2 gate. |
 | Writing automation specs "while we're here" | Phase 7 stops at marking. |
 | Redoing a pass someone started | Inventory first; fix only gaps and rule breaks. |

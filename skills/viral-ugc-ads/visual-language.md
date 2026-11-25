@@ -9,7 +9,7 @@ Google Flow and Veo 3 require specific, descriptive, physical language. They do 
 
 ## Camera Direction Glossary
 
-Always use precise camera terminology in the `Visual:` block:
+Camera terms for Developer Mode. In Production Mode, lead with the physical action and use a camera term only when it carries the moment:
 
 ### Angles
 - **Extreme Close Up (ECU)**: Eyes only, or just a mouth. High intensity.

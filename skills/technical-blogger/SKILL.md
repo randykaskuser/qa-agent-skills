@@ -1,13 +1,13 @@
 ---
 name: technical-blogger
-description: You are a world-class technical writing assistant. Use this skill whenever you need to write, draft, edit, or translate a high-quality technical blog article, engineering post, deep-dive tutorial, investigation, or SOP. Prioritizes KNOWLEDGE REPRESENTATION, EVIDENCE HIERARCHY, and INTENT over storytelling.
+description: Write, edit or translate a technical article — engineering post, tutorial, investigation, case study, benchmark or SOP — built around one main claim, with facts, observations, measurements and hypotheses kept apart. Use when the user wants to draft, rewrite or translate (EN/ID) a technical blog post or procedure. Not for checking a finished draft before publish (use technical-blogger-reviewer).
 ---
 
 # Technical Blogger
 
-You are an expert technical writer and systems engineer. Your sole purpose is to generate and refine world-class technical blog articles, investigations, and Standard Operating Procedures (SOPs).
+Write and refine technical articles, investigations and Standard Operating Procedures (SOPs).
 
-You must enforce an **UNBREAKABLE WORKFLOW**. You must NEVER jump directly into writing the final article. Your priority is **HOW TO THINK**, not just how to write. Do not force every article into a "Problem → Solution" template.
+Settle the article type, main claim and evidence (Phases 0–2) before drafting, because they decide the structure. Pick the structure that fits the type rather than defaulting to "Problem → Solution".
 
 ## Phase 0 — Determine Article Type
 Choose ONE article type that defines the structure and intent:
@@ -65,9 +65,9 @@ DO NOT use a generic "Problem → Solution" outline. Use the hierarchy matching 
 When drafting, you must follow these strict style rules:
 - **Be spartan and informative.** Use short, impactful sentences.
 - **Use active voice.** Avoid passive voice.
-- **Punctuation strictness:** AVOID em dashes (—). Use commas, periods, or semicolons. No asterisks. No markdown abuse.
+- **Punctuation strictness:** AVOID em dashes (—). Use commas, periods, or semicolons. Use headings, tables and lists where the content needs them (a dosage table, numbered steps), and plain prose elsewhere; keep emphasis asterisks out of body prose.
 - **NO DRAMA OR FLUFF:** Do not write dramatic conclusions (e.g., "This tests your discipline"). Conclusions must reinforce the **Single Main Claim** from Phase 1.
-- **AVOID common AI filler words:** "can, may, just, that, very, really, literally, actually, certainly, probably, basically, could, maybe, delve, embark, enlightening, esteemed, shed light, craft, crafting, imagine, realm, game-changer, unlock, discover, skyrocket, abyss, not alone, in a world where, revolutionize, disruptive, utilize, utilizing, dive deep, tapestry, illuminate, unveil, pivotal, intricate, elucidate, hence, furthermore, realm, however, harness, exciting, groundbreaking, cutting-edge, remarkable, it, remains to be seen, glimpse into, navigating, landscape, stark, testament, in summary, in conclusion, moreover, boost, skyrocketing, opened up, powerful, inquiries, ever-evolving".
+- **Plain words.** Write the way one engineer explains something to another: concrete nouns and verbs, no hype, no stock openers or closers. Cut an intensifier or hedge that adds nothing. Keep a hedge that marks real uncertainty, because Phase 2 depends on it.
 
 ## Phase 5 — Reader Simulation & Actionability Test
 Before returning the draft, simulate being the reader:
@@ -86,7 +86,7 @@ If "No", rewrite immediately.
 ## MDX Frontmatter & Multilingual Rules
 - Ensure exact MDX frontmatter: `title`, `description`, `locale`, `domain`, `slug`, `canonicalGroup`, `publishedAt`, `updatedAt`, `tags`, `featured`, `draft`, `coverImage`.
 - **Translations:** DO NOT summarize. Preserve hierarchy and evidence levels.
-- **CRITICAL INDONESIAN RULE:** Do NOT translate standard technical terms (e.g., "water changes", "siphon", "biological filter", "ammonia", "crash", "micro-jitter", "blackbox", "throttle punch", "low-pass"). Keep them in English.
+- **Indonesian:** Keep standard technical terms in English, because Indonesian practitioners code-switch (e.g., "water changes", "siphon", "biological filter", "ammonia", "crash", "micro-jitter", "blackbox", "throttle punch", "low-pass").
 
 ---
 **Execution Instructions:** 

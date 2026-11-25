@@ -9,17 +9,15 @@ An autonomous, iterative test-automation engine that takes an epic, ticket, or c
 
 **Core principle:** Break large automation scopes into atomic, fully verified single-section batches. Each batch is inspected live, audited against the catalogue, implemented, verified on a live environment, reviewed by an independent subagent, merged via its own MR, and reported to the issue tracker before the next batch begins.
 
-**Violating the letter of the rules is violating the spirit of the rules.**
-
 ---
 
-## The Iron Laws
+## Rules
 
-1. **Strict 1 MR Per Unit**: Never combine multiple navigation sections, screens, or feature domains into a single branch or MR. Monolithic PRs create unreviewable diffs, cause CI timeouts, and degrade agent context.
-2. **Never Guess Locators**: Always inspect the live target application first, capture full-page screenshots of all states (list, drawers, dialogs, empty states), and ground locators in the live DOM / accessibility tree.
+1. **Strict 1 MR Per Unit**: Never combine multiple navigation sections, screens, or feature domains into a single branch or MR. This holds for small sections too: combined diffs are hard to review and roll back, and can time out CI.
+2. **Never Guess Locators**: Always inspect the live target application first, capture full-page screenshots of all states (list, drawers, dialogs, empty states), and ground locators in the live DOM / accessibility tree. A familiar form still gets inspected, because live pages show changed labels, extra tabs and broken states the code does not.
 3. **100% P0/P1 Catalogue Completeness**: If the live UI contains critical controls, filters, sorts, or drawers not represented in the catalogue (`docs/test-cases/*.yml`), catalogue them and assign test IDs before writing specs.
-4. **Zero Leftovers Invariant**: Every test that writes data must use sandbox naming conventions (e.g. `e2e-` prefix) and clean up after itself. A batch is NOT complete unless the leftover scanner confirms 0 remaining artifacts.
-5. **Mandatory Subagent Code Review**: No branch is pushed or merged without an independent fresh-context code review pass (`superpowers:requesting-code-review`). Every finding must be addressed prior to MR creation.
+4. **Zero Leftovers Invariant**: Every test that writes data must use sandbox naming conventions (e.g. `e2e-` prefix) and clean up after itself. A batch is complete only when the leftover scanner reports 0, and an artifact from an earlier run counts: clean it up rather than explaining it away.
+5. **Mandatory Subagent Code Review**: Run an independent fresh-context review (`superpowers:requesting-code-review`) and address every finding before pushing, including for straightforward changes: a fresh reader catches unhandled promises, locator races and missing tags.
 
 ---
 
@@ -88,12 +86,12 @@ An autonomous, iterative test-automation engine that takes an epic, ticket, or c
 ### Step 4: Implementation
 - Follow clean Page Object Model / Component structure.
 - Encapsulate locators in page objects; keep specs declarative.
-- Tag every test with its exact catalogue ID: `test('... @DSH-NNNN', async ({ page }) => { ... })`.
+- Tag every test with its exact catalogue ID: `test('... @<PREFIX>-NNNN', async ({ page }) => { ... })`.
 - Separate read-only assertions from write mutations.
 
 ### Step 5: Two-Stage Verification
 - **Stage 1 (Offline Baseline):** Run `./init.sh` or `make check` (must pass typecheck, unit tests, and catalogue enumeration).
-- **Stage 2 (Online Execution):** Run the spec against the live target environment (e.g. `testing` or `staging`). All tests must pass, or skip with an authorized categorized reason.
+- **Stage 2 (Online Execution):** Run the spec against the live target environment (e.g. `testing` or `staging`). All tests must pass, or skip with an authorized categorized reason. Run live even when local passes: CORS, latency, permissions and hydration differ.
 
 ### Step 6: Zero-Leftover Verification
 - Run the repository leftover check (e.g. `npm run leftovers -- <target>`).
@@ -106,13 +104,8 @@ An autonomous, iterative test-automation engine that takes an epic, ticket, or c
 
 ### Step 8: VCS Branch, Commit & Merge Request
 - Create a feature branch: `test/<ticket-id>-<section-name>`.
-- Commit with standard attribution:
-  ```
-  test(<section>): automate <N> <Suite> -> <Section> cases (<TICKET-ID>)
-  
-  Co-Authored-By: Claude Code <noreply@anthropic.com>
-  ```
-- Push branch and create a Merge Request / Pull Request.
+- Commit as `test(<section>): automate <N> <Suite> -> <Section> cases (<TICKET-ID>)`, with the attribution lines your environment or the repo specifies.
+- Push the branch and create the Merge Request / Pull Request only after Steps 5-7 pass; do not open it while the tests still have to run.
 - Arm auto-merge on pipeline pass, or squash-merge if authorized.
 
 ### Step 9: Scannable Linear Comment
@@ -127,7 +120,7 @@ Post a progress comment to the Linear ticket following the team's strict formatt
 - **No conversational filler** (no "I'm pleased to report", "Hope this helps").
 
 ### Step 10: Progress Tracking & Loop Continuation
-- Update `claude-progress.md` with the completed section and the next target.
+- Update `claude-progress.md` after every section, not once at the end of the ticket, with the completed section and the next target.
 - Update catalogue YAML: set `automation: automated` for all completed cases.
 - If more sections remain in the ticket, immediately loop to Step 1 for the next section.
 - If all sections in the ticket are complete:
@@ -137,38 +130,17 @@ Post a progress comment to the Linear ticket following the team's strict formatt
 
 ---
 
-## Rationalization Table
+## Repository settings
 
-| Excuse / Rationalization | Reality & Hard Rule |
-|---|---|
-| *"These two sections are small; let's combine them into one MR."* | **Forbidden.** Combining sections dilutes review focus, complicates rollbacks, and risks failing CI pipelines. Keep it strictly 1 MR per section. |
-| *"I already know how this form works; I don't need to take screenshots."* | **Forbidden.** Visual inspection catches unexpected tabs, altered labels, and broken responsive states. Always inspect live. |
-| *"I'll clean up the test entities manually later."* | **Forbidden.** Automated teardown must be proven live. Leftovers scanner must show 0 immediately. |
-| *"Code review is slow; I'll self-review this time."* | **Forbidden.** A fresh subagent catches blind spots (unhandled promises, locator race conditions, missing tags). |
-| *"The catalogue doesn't have an ID for this filter, so I won't test it."* | **Forbidden.** Your job is 100% P0/P1 coverage. Add the missing case to the catalogue first, then automate it. |
-| *"The test passed locally, so I don't need to run live on staging."* | **Forbidden.** Staging environments exhibit CORS, latency, permissions, and hydration quirks not present in mocks. |
+Read the `## E2E batch settings` block in the repo's CLAUDE.md. If it is missing, ask once for the values and propose the block.
 
----
-
-## Red Flags List
-
-If you catch yourself thinking any of these, STOP immediately and return to the lifecycle:
-- "I'll create one branch for the whole ticket."
-- "The leftover count is only 1, probably from an earlier run."
-- "I'll open the PR first and run the tests while CI builds."
-- "I don't need to update `claude-progress.md` until the whole ticket is done."
-- "Let's skip the code review subagent because the changes look straightforward."
-
----
-
-## Adapter Configuration by Repository
-
-| Configuration | `e2e-dashboard` | `e2e-website` | `e2e-mobile` |
-|---|---|---|---|
-| **Catalogue File** | `docs/test-cases/dashboard.yml` | `docs/test-cases/web-player.yml` | `docs/test-cases/mobile-app.yml` |
-| **Case ID Prefix** | `DSH-NNNN` | `WEB-NNNN` | `MOB-NNNN` |
-| **Batch Unit** | Sidebar navigation section | Screen or Player domain | App tab or feature flow |
-| **Baseline Command** | `./init.sh` or `make check` | `./init.sh` or `npm test` | `./init.sh` or `npm run check` |
-| **Live Test Command** | `ALLOW_WRITES=<target> npx playwright test <spec> --project=<target>` | `npm run test:<target> <spec>` | `npm run test:device <spec>` |
-| **Cleanup Command** | `npm run leftovers -- <target>` | Teardown API / fixture checks | App sandbox state reset |
-| **Safety Invariants** | `e2e-` prefix, display flags false, date limits | Cloudflare bypass token, guest writes | Dedicated test org, isolated user accounts |
+```markdown
+## E2E batch settings
+- catalogue: docs/test-cases/<domain>.yml
+- id_prefix: <PREFIX>-NNNN
+- batch_unit: <sidebar section | screen | app tab>
+- baseline: <command>
+- live_test: <command>
+- cleanup: <command>
+- safety: <naming prefix, flags, date limits, test org>
+```

@@ -81,7 +81,7 @@ affected. A bug report with only a description is not accepted by this skill.
 - `references/adapters/test-management.md` — Qase, TestRail, Zephyr (optional)
 
 **Setting it up for your project:** copy
-`skills/ticket-driven-qa/references/environment-map.template.md` to `environment-map.md` and fill
+`skills/ticket-driven-qa/references/environment-map.template.md` to `.claude/qa-environment-map.md` in your project and fill
 it in — environments, IDs, endpoints, share-link format, and the gotchas that cost you an hour
 the first time. That file is the whole project-specific surface area. Don't put secrets in it.
 
@@ -207,7 +207,8 @@ baseline invented UI options the code does not have. The skill takes about twice
 ## Attribution
 
 - `ticket-driven-qa`, `exploratory-web-testing`, `qa-automation`, `playwright-robot`,
-  `technical-blogger`, `technical-blogger-reviewer`, `viral-ugc-ads`, `ui-tour`, `repo-gap-audit` — Randy Maulana, MIT.
+  `technical-blogger`, `technical-blogger-reviewer`, `viral-ugc-ads`, `ui-tour`, `repo-gap-audit`,
+  `e2e-batch-loop`, `new-app-test-design` — Randy Maulana, MIT.
 - `casely` — John Wayne, MIT, <https://github.com/JohnWayneeee/casely-qa-skill>. Vendored with
   its license intact; modifications listed in `skills/casely/NOTICE.md`.
 

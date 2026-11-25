@@ -135,7 +135,7 @@ values, text), then one idea. Don't pad the list: three real issues beat eight c
 Write the spec (see "The tour spec" below) next to the screenshots and run:
 
 ```bash
-python scripts/build_tour.py <workdir>/tour.json <workdir>/<screen>-tour.html
+python ${CLAUDE_PLUGIN_ROOT}/skills/ui-tour/scripts/build_tour.py <workdir>/tour.json <workdir>/<screen>-tour.html
 ```
 
 The script warns when a pin falls outside its cropped shot or points at a rough edge that does not

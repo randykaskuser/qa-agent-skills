@@ -10,9 +10,9 @@ Before outputting any script to the user, the AI must run the script through thi
 
 ## 2. The Pacing & Length Check
 - [ ] Are all voiceover sentences 10 words or fewer?
-- [ ] Is every scene 10 seconds or shorter?
-- [ ] Are there visual changes indicated every 3 seconds minimum?
-- [ ] Is the total video duration between 40 and 75 seconds?
+- [ ] Does every scene match its Blueprint duration?
+- [ ] Does the visual change at least every 2.5 seconds?
+- [ ] Does the total duration match the brief?
 
 ## 3. The "No-Commercial" Check
 - [ ] Does it sound like a creator talking to a friend?
@@ -21,8 +21,7 @@ Before outputting any script to the user, the AI must run the script through thi
 - [ ] Is the mechanism introduced as a solution to an enemy, not just a list of features?
 
 ## 4. The Google Flow Visual Check
-- [ ] Does every scene specify a concrete Camera Angle (CU, MS, ECU)?
-- [ ] Does every scene specify Lighting and Environment?
+- [ ] Does every scene describe a physical action? (Camera angle, lighting and environment lists belong in Developer Mode only.)
 - [ ] Are abstract visual descriptions ("show success") replaced with physical descriptions ("actor smiling, looking at green upward chart on phone")?
 - [ ] Do text overlays complement the VO rather than transcribing it word-for-word?
 

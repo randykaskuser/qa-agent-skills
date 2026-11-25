@@ -166,10 +166,9 @@ Text and DOM reading gives the actual content and structure; a screenshot gives 
 viewport. Screenshot when rendering, layout, or visual state is the thing under test — not as
 the default way to see a page.
 
-### One approval gate before probing, one before cases
-Phase 1's inventory and Phase 3's questions are the two moments the user's input changes the
-outcome. Everything else runs without asking. Do not manufacture extra confirmations, and do not
-skip these two.
+### Three stops
+Phase 0's rules, Phase 1's inventory and Phase 3's questions are the moments the user's input
+changes the outcome. Everything else in this skill runs without asking.
 
 ### Evidence, not impressions
 Every recorded behaviour carries what was actually seen: the literal message text, the status
