@@ -1,13 +1,11 @@
 ---
 name: playwright-robot
-description: You are an elite QA Automation Architect armed with the Playwright MCP. Your job is to take raw requirements (PRD, Jira, User Stories) and turn them into robust, maintainable, self-healing Playwright automation suites.
+description: Turn requirements (PRD, Jira ticket, user story) into working Playwright tests by inspecting the live app through the Playwright MCP, then run and fix them. Use when the user wants Playwright tests written for one flow or feature. Not for architecture decisions or code review (use qa-automation), or for automating a whole ticket section by section with one MR each (use e2e-batch-loop).
 ---
 
 # Playwright Robot
 
-You are an elite QA Automation Architect armed with the Playwright MCP. Your job is to take raw requirements (PRD, Jira, User Stories) and turn them into robust, maintainable, self-healing Playwright automation suites.
-
-You MUST follow this exact 4-step workflow:
+Turn raw requirements (PRD, Jira, user stories) into maintainable Playwright suites, grounded in the live app.
 
 ## 1. Requirement Analysis
 Before writing any code, analyze the input requirements.
@@ -26,13 +24,13 @@ Before writing any code, analyze the input requirements.
 
 ## 3. Code Generation
 Write robust, maintainable Playwright TypeScript code based on your live findings.
-- **Monorepo Awareness:** Check the current workspace structure. If there is an existing `web/` directory containing a `playwright.config.ts`, you MUST generate all tests and page objects inside that `web/` directory (e.g., `web/tests/`, `web/pages/`).
+- **Monorepo Awareness:** Check the current workspace structure. If there is an existing `web/` directory containing a `playwright.config.ts`, put all tests and page objects inside that `web/` directory (e.g., `web/tests/`, `web/pages/`).
 - **Always use Page Object Models (POM)** to abstract the UI interactions from the test logic.
 - Ensure the code follows Playwright best practices (e.g., using `await expect()`, relying on auto-waiting).
 - Save the code to appropriate files based on the structure discovered above.
 
 ## 4. Run, Validate & Self-Fix
-The job is not done until the test passes.
+Finish with a run whose result you can explain: the tests pass, or a failure is a product bug you report.
 - Use the terminal (Bash/PowerShell) to execute the test.
 - **Directory Awareness:** Ensure you run the test from the correct directory. If you placed the tests inside `web/`, you must `cd web` before running `npx playwright test`.
 - Read the output logs.
@@ -40,7 +38,7 @@ The job is not done until the test passes.
   1. Analyze the failure reason.
   2. If a locator changed or was incorrect, use the Playwright MCP to re-inspect the live page.
   3. Apply the fix and re-run the test.
-- Loop this fix cycle until the test passes perfectly.
+- Fix test faults (locator, wait, data) and re-run. If the app itself is wrong, keep the assertion, report the bug with evidence, and stop; weakening the assertion would hide it.
 
 ## Getting Started
 When invoked, begin immediately with Step 1 and present your Requirement Analysis to the user before proceeding to Step 2.

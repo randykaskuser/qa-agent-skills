@@ -9,7 +9,6 @@ Pull in whichever apply to the change. Each list came from a real run; the notes
 - Dark and light theme. Some surfaces are locked to one theme — say so rather than skipping silently.
 - Width 375px with a **long unbroken URL or word**. Check that
   `document.documentElement.scrollWidth > window.innerWidth` is false.
-  *This found a real horizontal-overflow bug.*
 
 ## Stored HTML / rich text
 

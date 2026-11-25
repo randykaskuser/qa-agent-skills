@@ -38,7 +38,7 @@ Check **headings** explicitly — calques hide there because titles get translat
 
 The author hates *bertele-tele* (rambling). Enforce:
 
-1. No sentence over ~35 words. Split it or trim it.
+1. Split or trim any sentence the reader would have to read twice.
 2. Cut filler: repeated transitions, throat-clearing ("perlu dicatat bahwa…", "sebagaimana kita tahu…"), and any paragraph that teaches nothing new.
 3. One idea per paragraph.
 4. Bullets and checklist items must be scannable — no bullet carries three sentences where one does the job.

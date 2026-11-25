@@ -44,20 +44,17 @@ For every script, you must generate 3 distinct candidate hooks from different ca
 
 ## The Scoring Engine
 
-For each of your 3 candidate hooks, score them on the following criteria (1-10 scale):
+Compare the 3 candidates on these criteria and keep the strongest overall:
 
 * **Curiosity (C):** How badly does the viewer need to know the answer?
-* **Shock/Novelty (S):** Is this something they've heard 100 times before? (10 = totally new angle)
+* **Shock/Novelty (S):** Is this something they've heard 100 times before?
 * **Relatability (R):** Does this speak to a specific, painful reality they experience daily?
-* **Swipe Risk (SR):** (Negative metric, subtract this). Does it sound like an ad? Does it take too long to get to the point?
-
-**Formula:** `Score = C + S + R - SR`
+* **Swipe Risk (SR):** (Lower is better.) Does it sound like an ad? Does it take too long to get to the point?
 
 ### Hook Rejection Criteria (AUTO-REJECT):
 - Starts with a greeting ("Hey guys", "What's up").
 - Introduces the product immediately.
 - Uses the phrase "Today I want to talk about..."
 - Explains a concept instead of creating a gap.
-- Score is below 22.
 
-You must explicitly show your generation and scoring process before drafting the script.
+Show the winning hook and one line on why it won.

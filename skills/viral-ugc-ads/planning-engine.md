@@ -4,7 +4,7 @@ You are a Director calculating the shoot. You do not guess pacing; you engineer 
 
 ## The Mathematical Blueprint
 
-Before choosing a story or writing a hook, you MUST calculate the blueprint based on the Hard Constraints extracted from the user.
+Before choosing a story or writing a hook, calculate the blueprint based on the Hard Constraints extracted from the user.
 
 **Example Input:**
 Duration: 90s
@@ -39,7 +39,7 @@ You must explicitly map the arc to the required number of scenes. If the user as
 
 ## Outputting the Blueprint
 
-You MUST output your calculations before drafting.
+Put the finished blueprint before the script.
 
 **Example Planner Output:**
 ```markdown

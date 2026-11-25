@@ -1,6 +1,6 @@
 # Environment map — template
 
-Copy this file to `environment-map.md` in the same folder and fill it in for your project.
+Copy this file to `.claude/qa-environment-map.md` in your project and fill it in.
 Keep it current: re-verify when something looks off, and update it the moment it changes.
 Date every fact. A stale environment map costs more time than no map at all.
 

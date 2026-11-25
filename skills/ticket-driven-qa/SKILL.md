@@ -28,7 +28,7 @@ Decide from the request. When both are asked for, run them in sequence.
 
 Load task-tracking and user-messaging tools at the start. A run has many steps and the user may walk away.
 
-Read `references/environment-map.md` before Phase 1 if the project has one. If it doesn't, copy `references/environment-map.template.md`, fill it in during Phase 1, and keep it current — it is the single biggest time saver on later runs.
+Read `.claude/qa-environment-map.md` in the project before Phase 1 if it exists. If it doesn't, copy `references/environment-map.template.md` there, fill it in during Phase 1, and keep it current — it is the single biggest time saver on later runs.
 
 ---
 
@@ -172,7 +172,7 @@ A developer must be able to reproduce from the card alone. Use the repro card in
 
 Read these when the phase needs them, not all up front:
 
-- `references/environment-map.template.md` — copy to `environment-map.md` and fill in per project: environments, IDs, endpoints, share-link format, known gotchas. Read before Phase 1 on every run.
+- `references/environment-map.template.md` — copy to `.claude/qa-environment-map.md` in the project and fill in: environments, IDs, endpoints, share-link format, known gotchas. Read before Phase 1 on every run.
 - `references/adapters/issue-trackers.md` — Linear / Jira / GitHub Issues calls for Phases 1, 4 and 8.
 - `references/adapters/code-review.md` — GitLab / GitHub / Bitbucket diff fetching for Phase 1.
 - `references/adapters/test-management.md` — optional: pushing results to Qase / TestRail / Zephyr.
