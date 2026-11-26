@@ -16,7 +16,7 @@ Plus ten more:
 
 | Skill | What it does |
 |---|---|
-| [`build-proof-page`](skills/build-proof-page) | One easy-to-read results page for a test run: verdict, what it was judged against, every item, the proof for each failure, what is open. Called by `test-a-ticket`, `explore-app-without-spec` and `consistency-check`; refuses a spec with a failure that has no source, date or proof |
+| [`build-proof-page`](skills/build-proof-page) | One easy-to-read results page for a test run: verdict, what it was judged against, every item, the proof for each failure, what is open. For a fix retest, before/after tables per ticket plus a PNG to paste into the tracker comment. Called by `test-a-ticket`, `explore-app-without-spec` and `consistency-check`; refuses a spec with a failure that has no source, date or proof |
 | [`automate-ticket-in-batches`](skills/automate-ticket-in-batches) | Autonomous iterative test-automation loop across navigation sections: live visual inspection, catalogue gap analysis, 100% P0/P1 coverage, 1 MR per section, subagent code review, live execution, zero leftovers, and Linear reporting |
 | [`automation-architecture`](skills/automation-architecture) | Principal-SDET partner for Playwright automation: requirements analysis, web/api/mobile monorepo layout with a shared core, flat POMs, `APIRequestContext`, test plans, production-readiness review |
 | [`write-playwright-tests`](skills/write-playwright-tests) | Turns raw requirements into a Playwright suite by inspecting the live accessibility tree through the Playwright MCP, then self-heals failures |

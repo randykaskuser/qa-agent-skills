@@ -19,9 +19,17 @@ One light-theme page that answers, in this order: is it good, what was judged ag
 | Platform comparison | the platforms | compared item | differing item, panels side by side | records tested |
 | Permission test | menu, route, API, after re-login | case | failed case | actors and restored state |
 | Exploration | `Observed` | behaviour, question, anomaly | anomaly | areas explored |
+| Fix retest (before/after) | `retest`: Check, Before, After | check, per ticket | — (each check carries its own crops) | — |
 
+   For a fix retest, fill `retest` (one entry per ticket; `rows` may be left out):
+   - **Header:** ticket id, one-line title, the "QA passed" pill (`status`).
+   - **`sub`:** environment, date, and the viewer and event timezones when they matter.
+   - **Before:** the bug in red. Reuse the earlier bug-report proof image as `before_image` when one exists; otherwise text only.
+   - **After:** the retest in green, with a crop of the retest screenshot as `after_image`.
+   - Crop only the relevant region; no full-page shots.
+   - `comment`: the one-line tracker comment that goes with the PNG.
 3. Crop and mark screenshots with `compare_panels.py` (same folder). No personal data or tokens in an image or in `evidence`.
-4. Build. The script writes nothing until every red cell names its source and every figure has a date and proof; fix the spec, not the script.
+4. Build; add `--png` for a fix retest. It also writes `<id>-before-after.png` (light theme, plus its HTML) per ticket next to the page, rendered with headless Chrome. Post each PNG with its one-line `comment` on the Linear or Jira ticket. The script writes nothing until every red cell names its source and every figure has a date and proof; fix the spec, not the script.
 5. Open the page once. Then publish it private with the Artifact tool, or send the HTML file where there is none. On a rerun, republish to the same URL.
 
 `lead` states the verdict first: ready or not, the count, build and date. Blocked and not-run items are rows too, so the totals match the checklist.
