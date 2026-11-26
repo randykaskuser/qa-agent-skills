@@ -1,6 +1,7 @@
 """Mark screenshots and compose a side-by-side comparison image.
 
-Usage (in your own script):
+Usage (in your own script; put this scripts folder on sys.path first):
+    import sys; sys.path.insert(0, "<path to this scripts folder>")
     from compare_panels import panel, compose, RED, GRN, AMB
     web = panel("web.png", crop=(0, 500, 800, 1000), boxes=[(160, 830, 640, 885, GRN, "Continue")])
     an  = panel("and.png", crop=(0, 700, 1080, 1500), boxes=[(42, 1328, 1038, 1475, GRN, "Continue")])
@@ -44,12 +45,13 @@ def wrap(d, text, fnt, width):
 def panel(path, crop, boxes, scale=1.0):
     im = Image.open(path).convert("RGB")
     d = ImageDraw.Draw(im)
+    cw = int((crop[2] - crop[0]) * scale)  # marks are sized to the crop, not the full shot
     for x0, y0, x1, y1, colour, label in boxes:
         x0, y0, x1, y1 = [v * scale for v in (x0, y0, x1, y1)]
-        d.rectangle([x0, y0, x1, y1], outline=colour, width=max(4, im.width // 150))
+        d.rectangle([x0, y0, x1, y1], outline=colour, width=max(4, cw // 150))
         if not label:
             continue
-        f = font(max(22, im.width // 28), True)
+        f = font(max(22, cw // 28), True)
         tw, th = d.textlength(label, font=f), getattr(f, "size", 12) + 8
         left, top, right = crop[0] * scale, crop[1] * scale, min(crop[2] * scale, im.width)
         ty = y0 - th - 2 if y0 - th - 2 > top else y1 + 2
