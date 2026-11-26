@@ -22,14 +22,23 @@ One light-theme page that answers, in this order: is it good, what was judged ag
 | Fix retest (before/after) | `retest`: Check, Before, After | check, per ticket | — (each check carries its own crops) | — |
 
    For a fix retest, fill `retest` (one entry per ticket; `rows` may be left out):
-   - **Header:** ticket id, one-line title, the "QA passed" pill. Passed retests only; verify-bug-fix handles a fix that still fails.
+   - **Header:** ticket id and `title` copied word for word from the tracker ticket, then the "QA passed" pill. Passed retests only; verify-bug-fix handles a fix that still fails.
    - **`sub`:** environment, date, and the viewer and event timezones when they matter.
-   - **Before:** the bug in red. Reuse the earlier bug-report proof image as `before_image` when one exists; otherwise text only.
-   - **After:** the retest in green, with a crop of the retest screenshot as `after_image`.
+   - **Rows:** in the order the user does them.
+   - **Before:** the bug in red: what the user saw at that step before the fix, from the bug report or what the bug caused there. When the bug stopped the user reaching the step, say so ("Couldn't get here: the code came back"); "No … before" for something new. Reuse the earlier bug-report proof image as `before_image` when one exists, keeping its marks.
+   - **After:** the retest in green, with a crop of the retest screenshot as `after_image`. A check the user sees on screen needs a sharp screenshot; text only is for evidence with no screen, such as an API response.
    - Crop the same region from both screenshots, only the part that changed: no full-page shots, no sidebars or personal data. Before and After render at the same width, so equal crops line up. Mark the after crop with a `GRN` box from `compare_panels.py` when the change is small.
    - `comment`: the one-line tracker comment that goes with the PNG.
 3. Crop and mark screenshots with `compare_panels.py` (same folder). No personal data or tokens in an image or in `evidence`.
 4. Build; add `--png` for a fix retest. It also writes `<id>-before-after.png` (light theme, plus its HTML) per ticket next to the page, rendered with headless Chrome. Post each PNG with its one-line `comment` on the Linear or Jira ticket. The script writes nothing until every red cell names its source and every figure has a date and proof; fix the spec, not the script.
-5. For a fix retest, the PNGs and their comments are what you hand over; publish the page only when asked. Otherwise, open the page once. Then publish it private with the Artifact tool, or send the HTML file where there is none. On a rerun, republish to the same URL.
+5. **For a fix retest, review every PNG before posting it.** Give a fresh subagent only the PNG and the ticket text; with no subagent, open the PNG yourself. Check each item:
+   - the title is the ticket's title, word for word;
+   - rows are in the order the user does them;
+   - each image shows exactly what its cell says, on the right record;
+   - every image is sharp at full size and has no personal data;
+   - every Before says what happened before.
+
+   Fix the spec or retake the screenshot, rebuild, and review again. When a shot cannot be retaken, tell the user before posting: weak proof does not change the verdict, it holds the post until a retake or the user's go-ahead. The PNGs and their comments are what you hand over; publish the page only when asked.
+6. Otherwise, open the page once. Then publish it private with the Artifact tool, or send the HTML file where there is none. On a rerun, republish to the same URL.
 
 `lead` states the verdict first: ready or not, the count, build and date. Blocked and not-run items are rows too, so the totals match the checklist.
