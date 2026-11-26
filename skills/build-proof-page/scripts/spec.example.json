@@ -70,7 +70,6 @@
     {
       "id": "SHOP-28",
       "title": "Saved address keeps the postcode",
-      "status": "QA passed",
       "sub": "Staging, build 2.4.1, 19 Nov 2026",
       "comment": "QA passed on staging 2.4.1: postcode and label stay after save and reopen.",
       "checks": [

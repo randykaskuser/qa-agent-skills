@@ -30,9 +30,10 @@ Spec (* = required):
 
 Fix retest (before/after) — add retest; title, lead, columns and rows may then be left out:
   retest        [{id*, title* (one line), sub* (environment, date, viewer/event timezones when they matter),
-                  status (default "QA passed"), comment (the one-line tracker comment that goes with the PNG),
+                  comment (the one-line tracker comment that goes with the PNG),
                   checks*: [{check*, before*, after*, before_image, after_image}]}]
                 before_image: crop of the original bug-report proof (red border); after_image: crop of the retest (green border)
+                for passed retests only; a fix that still fails is a ticket-test row with a figure
 
 Text is escaped; <strong>, <em>, <code>, <br> and <a href="http..."> are kept.
 """
@@ -195,6 +196,7 @@ BA_CSS = '''
 .ba .before .lbl{color:#cf222e}.ba .after .lbl{color:#1a7f37}
 .ba img{display:block;max-width:100%;max-height:230px;margin-top:8px;border-radius:6px}
 .ba .before img{border:2px solid #cf222e}.ba .after img{border:2px solid #1a7f37}
+.ba .scroll{overflow-x:auto}.ba .scroll table{min-width:720px}
 .ba .note{color:#59636e;font-size:13px;margin-top:12px}
 '''
 PNG_CSS = "*{box-sizing:border-box}body{margin:0;background:#fff}.ba{width:1100px;border-radius:0}"
@@ -220,9 +222,9 @@ def before_after(t, base):
     trs = "".join(f'<tr><td class="check">{rich(c["check"])}</td>{cell("before", "BEFORE", c)}{cell("after", "AFTER ✓", c)}</tr>'
                   for c in t["checks"])
     note = f'<p class="note">Comment: {rich(t["comment"])}</p>' if t.get("comment") else ""
-    return (f'<div class="ba" id="{html.escape(t["id"])}"><h1>{rich(t["id"])}: {rich(t["title"])}<span class="pass">{rich(t.get("status", "QA passed"))}</span></h1>'
-            f'<div class="sub">{rich(t["sub"])}</div><table><thead><tr><th>Check</th><th>Before</th><th>After</th></tr></thead>'
-            f'<tbody>{trs}</tbody></table>{note}</div>')
+    return (f'<div class="ba" id="{html.escape(t["id"])}"><h1>{rich(t["id"])}: {rich(t["title"])}<span class="pass">QA passed</span></h1>'
+            f'<div class="sub">{rich(t["sub"])}</div><div class="scroll"><table><thead><tr><th>Check</th><th>Before</th><th>After</th></tr></thead>'
+            f'<tbody>{trs}</tbody></table></div>{note}</div>')
 
 
 def chrome():
@@ -303,7 +305,7 @@ def build(spec, base):
     if retest and not rows:  # fix-retest only: a verdict line is all the header needs
         spec.setdefault("title", "Fix retest: " + ", ".join(t["id"] for t in retest))
         spec.setdefault("lead", f"<strong>{len(retest)} fix{'es' if len(retest) > 1 else ''} retested.</strong> "
-                        + " · ".join(f'{t["id"]}: {t.get("status", "QA passed")}' for t in retest))
+                        + " · ".join(f'{t["id"]}: QA passed' for t in retest))
     h = {"tickets": "Tickets", "rows": "Results", "retest": "Before / after", "figures": "Proof", "open": "Open items",
          **(spec.get("headings") or {})}
     parts, nav = [], [("summary", "Summary")]

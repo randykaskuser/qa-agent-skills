@@ -22,7 +22,7 @@ One light-theme page that answers, in this order: is it good, what was judged ag
 | Fix retest (before/after) | `retest`: Check, Before, After | check, per ticket | — (each check carries its own crops) | — |
 
    For a fix retest, fill `retest` (one entry per ticket; `rows` may be left out):
-   - **Header:** ticket id, one-line title, the "QA passed" pill (`status`).
+   - **Header:** ticket id, one-line title, the "QA passed" pill. Passed retests only: a fix that still fails goes in `rows` with a figure.
    - **`sub`:** environment, date, and the viewer and event timezones when they matter.
    - **Before:** the bug in red. Reuse the earlier bug-report proof image as `before_image` when one exists; otherwise text only.
    - **After:** the retest in green, with a crop of the retest screenshot as `after_image`.
