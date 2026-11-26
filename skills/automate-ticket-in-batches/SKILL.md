@@ -75,6 +75,7 @@ An autonomous, iterative test-automation engine that takes an epic, ticket, or c
 - Read the project's test catalogue (`docs/test-cases/<domain>.yml`).
 - Compare live controls, tabs, and validations against the catalogue.
 - Discover any uncatalogued P0/P1 features (e.g. column sorting, reset filters, duplicate actions, pagination, tab persistence).
+- An editable field the catalogue covers only with a "set" case also needs clear and replace cases: save, reload, and the request sends null or empty, not the old value.
 - Add new case definitions to the YAML catalogue with sequential IDs (`<PREFIX>-NNNN`).
 
 ### Step 3: Isolated Plan & Design Spec

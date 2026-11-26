@@ -12,8 +12,8 @@ Retest a reported bug on the build that claims the fix, give one verdict per tic
 
 ## Steps
 
-1. **Gather, per ticket:** the original steps, expected and actual, the bug-report proof image (ticket description, comments, an earlier results page), the acceptance criteria, and the build or merge request that claims the fix. Confirm that build is the one deployed where you test; a merged MR is not a deploy.
-2. **Write the checks before testing.** Check 1 is the original repro, step for step. Add two to four nearby cases the fix could miss: the same action after an edit, after a reload, from another entry point, and each other clause of the acceptance criteria.
+1. **Gather, per ticket:** the original steps, expected and actual, the bug-report proof image (ticket description, comments, an earlier results page), the acceptance criteria, and the build or merge request that claims the fix. Confirm that build is the one deployed where you test; a merged MR is not a deploy. Read every developer comment and the MR description for side fixes ("also fixed X", "along the way"): each X gets its own check; per the core rule, a failure there is a new bug unless X is inside the original bug or its criteria.
+2. **Write the checks before testing.** Check 1 is the original repro, step for step. Add the nearby cases the fix could miss: the same action after an edit and after a reload; clearing and replacing the field the bug is about (save, reload, and check the request sends null or empty, not the old value); the same field from every other screen or API that writes it (admin vs user, web vs mobile, bulk vs single, old vs new editor); and each other clause of the acceptance criteria.
 3. **Retest through the real UI.** Watch the request and response for every save. Screenshot each result and crop the same region as the Before proof; leave out sidebars and personal data. A check with no screenshot stays text only and names its evidence, such as the response value.
 4. **Verdict per ticket:** *passed* (every check passed), *not fixed* (a check failed, per the core rule) or *blocked* (the state could not be reached; say why).
 5. **Hand back:**

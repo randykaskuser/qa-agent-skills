@@ -38,6 +38,7 @@ Read `.claude/qa-environment-map.md` in the project before Phase 1 if it exists.
    - Read the dev ticket(s) *with their relations*. Acceptance criteria, "what to consider" lists and linked backend/frontend tickets are all test input.
    - Also run a keyword search on a distinctive term from the change (for example `og:image`). Related work is often *mentioned* but not linked, and a keyword search finds it.
    - Note each related ticket's status. A dependency still in "Todo" means its checks can only be *noted*, not failed.
+   - Read every comment and the MR description for **side fixes**: "also fixed X", "along the way", "while I was there". Each X becomes a checklist item (rule 3 in `references/standard-checks.md`).
 2. **Code.**
    - Read both the MR/PR **description** and the **diffs**, skipping lockfiles.
    - Record the **target branch**. A change merged to a shared integration branch is not the same as "live for every tenant".
@@ -78,6 +79,7 @@ Build this table. It is the heart of the plan and the direct fix for "tested the
 | Any content field | Public API the apps read | Payload has or lacks the field | API base URL |
 | Image with a fallback chain | Same share page, once per fallback step | Remove each level in turn and re-read the tag | public domain |
 | Any user-facing text | Other tenants / brands / the production build | Bundle fingerprint; read-only look | other tenant domain |
+| Any field the change writes | Every other screen or API that writes the same field: admin vs user view, web vs mobile, bulk vs single, old vs new editor | Set, clear and replace there too (rules 1–2 in `references/standard-checks.md`) | list them; ask if unsure |
 | Any field another tool can also edit | Legacy admin, CMS, django-admin-style backoffice | Does it show or break the new value format? | ask for the URL if unknown |
 | Anything shown in link previews | Crawler-facing raw HTML | Raw HTML fetch. **Chat and tracker link unfurls act as crawlers** — read the preview text of attached links | public domain |
 | Anything the native apps render | iOS / Android | Usually blocked. Say so and ask the user or the app team | — |
@@ -139,7 +141,7 @@ Break long runs into tracked tasks and mark them as you go. Stop at what is genu
 
 ### Standard checks
 
-Read `references/standard-checks.md` when writing the checklist and before executing. It lists rendered-content, rich-text/XSS, edge-data, image-upload, save-flow and dirty-state checks.
+Read `references/standard-checks.md` when writing the checklist and before executing. Its three rules (clear and replace, same field on other screens, side fixes in comments) apply to every ticket. It also lists rendered-content, rich-text/XSS, edge-data, image-upload, save-flow and dirty-state checks.
 
 ### When behaviour is unclear
 
