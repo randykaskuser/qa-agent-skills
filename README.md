@@ -13,11 +13,12 @@ The core is five skills, covering the situations QA actually shows up in:
 | [`consistency-check`](skills/consistency-check) | The same flow must match across web, Android, iOS or builds | Marked side-by-side screenshots judged against a named source of truth, then bugs per platform |
 | [`write-test-cases`](skills/write-test-cases) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
-Plus ten more:
+Plus eleven more:
 
 | Skill | What it does |
 |---|---|
 | [`report-test-results`](skills/report-test-results) | One easy-to-read results page for a test run: verdict, what it was judged against, every item, the proof for each failure, what is open. For a verified bug fix, before/after tables per ticket plus a PNG to paste into the tracker comment. Called by `test-a-ticket`, `explore-app-without-spec`, `consistency-check` and `verify-bug-fix`; refuses a spec with a failure that has no source, date or proof |
+| [`export-cases-to-qase`](skills/export-cases-to-qase) | Markdown test cases (from `write-test-cases` or `explore-app-without-spec`) to one CSV Qase imports: Qase's own headers or a real export as template, suites first, every dropped column named |
 | [`automate-ticket-in-batches`](skills/automate-ticket-in-batches) | Autonomous iterative test-automation loop across navigation sections: live visual inspection, catalogue gap analysis, 100% P0/P1 coverage, 1 MR per section, subagent code review, live execution, zero leftovers, and Linear reporting |
 | [`automation-architecture`](skills/automation-architecture) | Principal-SDET partner for Playwright automation: requirements analysis, web/api/mobile monorepo layout with a shared core, flat POMs, `APIRequestContext`, test plans, production-readiness review |
 | [`write-playwright-tests`](skills/write-playwright-tests) | Turns raw requirements into a Playwright suite by inspecting the live accessibility tree through the Playwright MCP, then self-heals failures |
@@ -103,10 +104,10 @@ Rules of engagement → Recon (inventory, shown to you)
    → test cases → qase_import.csv
 ```
 
-### Qase export
+### Qase export (`export-cases-to-qase`)
 
 ```bash
-python skills/explore-app-without-spec/scripts/to_qase_csv.py \
+python skills/export-cases-to-qase/scripts/to_qase_csv.py \
   results qase_import.csv --suite "Client / Area"
 ```
 
@@ -132,11 +133,13 @@ changed and how to diff against upstream.
 Have a ticket + a diff?             → test-a-ticket
 Bug marked fixed, needs a retest?   → verify-bug-fix → report-test-results (before/after PNG)
 Have a spec but no test cases?      → write-test-cases
-Have nothing but a URL?             → explore-app-without-spec → (Phase 4) write-test-cases → Qase CSV
+Have nothing but a URL?             → explore-app-without-spec → write-test-cases → export-cases-to-qase
+Test design done, cases marked?     → design-tests-for-new-app → automate-ticket-in-batches
 Have cases, want them automated?    → automation-architecture (architecture + review) or write-playwright-tests (generate + self-heal)
 Same flow on several platforms?     → consistency-check (what differs, judged against a named source)
 Results someone else must trust?    → report-test-results (called by the testing skills; one page: verdict, every item, proof)
 About to change a screen?           → annotate-screen (see it, its controls and its rough edges first)
+Writing a technical article?        → write-tech-article → review-tech-article
 Wondering what the repo is missing?  → find-repo-gaps (ranked gaps + feature ideas, no edits)
 ```
 

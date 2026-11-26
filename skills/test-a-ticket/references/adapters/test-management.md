@@ -29,8 +29,8 @@ not run → `skipped`. **Partial has no equivalent** — record it as `failed` o
 what was and wasn't covered in the comment. Don't quietly round a partial up to a pass.
 
 For bulk import of new cases, the CSV route is usually faster than the API. Qase's importer will
-not remap headers, so use the converter in the `explore-app-without-spec` skill
-(`scripts/to_qase_csv.py`), which emits Qase's own column names.
+not remap headers, so use the `export-cases-to-qase` skill, whose converter
+emits Qase's own column names.
 
 ## TestRail
 
