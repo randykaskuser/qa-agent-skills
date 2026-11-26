@@ -190,7 +190,7 @@ BA_CSS = '''
 .ba tbody tr:last-child td{border-bottom:0}
 .ba tbody tr:hover>*{background:none}
 .ba td.check{width:210px;font-weight:600}
-.ba td.before,.ba tbody tr:hover>td.before{width:330px;background:#fff8f7}
+.ba td.before,.ba tbody tr:hover>td.before{width:40%;background:#fff8f7}
 .ba td.after,.ba tbody tr:hover>td.after{background:#f6fef8}
 .ba .lbl{font-size:12px;font-weight:700;margin-bottom:4px;text-transform:none;letter-spacing:0}
 .ba .before .lbl{color:#cf222e}.ba .after .lbl{color:#1a7f37}

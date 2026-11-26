@@ -1,6 +1,6 @@
 ---
 name: build-proof-page
-description: Use when a test run, platform comparison or exploration is finished and its results must be read or trusted by someone who was not there (PM, developers, another tester), or when another QA skill calls for a proof page. Not for test cases, coverage pages, code review or CI reports that already have their own format.
+description: Use when a test run, platform comparison or exploration is finished and its results must be read or trusted by someone who was not there (PM, developers, another tester), when a bug fix was retested and the ticket needs before/after proof, or when another QA skill calls for a proof page. Not for test cases, coverage pages, code review or CI reports that already have their own format.
 license: "MIT"
 ---
 
@@ -26,10 +26,10 @@ One light-theme page that answers, in this order: is it good, what was judged ag
    - **`sub`:** environment, date, and the viewer and event timezones when they matter.
    - **Before:** the bug in red. Reuse the earlier bug-report proof image as `before_image` when one exists; otherwise text only.
    - **After:** the retest in green, with a crop of the retest screenshot as `after_image`.
-   - Crop only the relevant region; no full-page shots.
+   - Crop the same region from both screenshots, only the part that changed: no full-page shots, no sidebars or personal data. Before and After render at the same width, so equal crops line up. Mark the after crop with a `GRN` box from `compare_panels.py` when the change is small.
    - `comment`: the one-line tracker comment that goes with the PNG.
 3. Crop and mark screenshots with `compare_panels.py` (same folder). No personal data or tokens in an image or in `evidence`.
 4. Build; add `--png` for a fix retest. It also writes `<id>-before-after.png` (light theme, plus its HTML) per ticket next to the page, rendered with headless Chrome. Post each PNG with its one-line `comment` on the Linear or Jira ticket. The script writes nothing until every red cell names its source and every figure has a date and proof; fix the spec, not the script.
-5. Open the page once. Then publish it private with the Artifact tool, or send the HTML file where there is none. On a rerun, republish to the same URL.
+5. For a fix retest, the PNGs and their comments are what you hand over; publish the page only when asked. Otherwise, open the page once. Then publish it private with the Artifact tool, or send the HTML file where there is none. On a rerun, republish to the same URL.
 
 `lead` states the verdict first: ready or not, the count, build and date. Blocked and not-run items are rows too, so the totals match the checklist.
