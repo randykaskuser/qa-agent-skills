@@ -35,10 +35,11 @@ Tickets in, five checkable outputs out: a today-vs-new comparison, a strategy an
 
 **Publish:** comments per [references/comment-template.md](references/comment-template.md) (keep an existing house format). Coverage page: `python ${CLAUDE_PLUGIN_ROOT}/skills/design-tests-for-new-app/scripts/build_coverage.py --help` (rows: one per feature, any number of ticket teams), then the Artifact tool — republish to the stored URL.
 
-**Stop at phase 7.** Mark cases and open the ticket. Never write Maestro, Playwright or other flows here.
+**Stop at phase 7.** Mark cases and open the ticket. Never write Maestro, Playwright or other flows here. In the final reply, name the next step: qa-agent-skills:automate-ticket-in-batches on that automation ticket, when the user wants the cases automated.
 
 ## Hand-offs
 
+- `qa-agent-skills:automate-ticket-in-batches` — after phase 7, automates the `automatable` cases from the automation ticket, one section per merge request.
 - `confluence-writer` — the test plan page and each version bump.
 - The project's knowledge skill, when one is installed — real field, route and endpoint names for steps.
 - `artifact-design` — before the comparison or coverage page.

@@ -6,8 +6,8 @@ description: >
   Use whenever the user names a URL or an app and wants testing without providing requirements —
   "test this site", "explore this app", "no spec, just poke at it", "what should we test here?",
   "reverse-engineer the requirements", "cover this page with regression tests" — or when a
-  Casely run stalls because no requirements document exists. Also use for exporting existing test
-  cases to Qase, which needs its own exact CSV headers rather than a team's column names. Assumes
+  Casely run stalls because no requirements document exists. Not for exporting existing test
+  cases to Qase (use export-cases-to-qase). Assumes
   a browser is available and drives it directly. Triggers on non-English phrasing too.
 license: "MIT"
 ---
@@ -125,7 +125,7 @@ Two things to pass along explicitly:
   analysis should treat missing error-path definitions as genuinely undefined, not as spec
   omissions to flag back — they were never written down by anyone.
 - **The style example.** For Qase, the example test case file should be a real Qase CSV export,
-  not the team's internal format. See the next phase for why.
+  not the team's internal format: Qase's importer will not remap headers (see export-cases-to-qase).
 
 If Casely is not installed, generate the cases directly using the same discipline — atomic,
 independent, deterministic expected results — but say that the dedicated skill would do it
@@ -133,33 +133,7 @@ better.
 
 ## Phase 5 — Export to Qase
 
-Qase's CSV importer reads the first row to decide what each column is and **will not guess** a
-renamed, missing, or reordered header. This is the opposite of Casely's "preserve the team's
-exact headers" rule, and the two only agree when the team's format already is the Qase format.
-
-Run the bundled converter over Casely's `results/` folder:
-
-```bash
-python ${CLAUDE_PLUGIN_ROOT}/skills/explore-app-without-spec/scripts/to_qase_csv.py \
-  results qase_import.csv --suite "Client / Area"
-```
-
-Useful flags:
-
-- `--template real_qase_export.csv` — takes the header row verbatim from an actual export of the
-  user's workspace. **Prefer this whenever the user can supply one**, since it picks up custom
-  fields and their Qase version's step format, which no hardcoded list can.
-- `--map "Schritte=steps_actions,Priorität=priority"` — for columns the alias table misses.
-- `--suite "Parent / Child"` — emits the suite rows first, which Qase requires before cases can
-  reference them.
-
-The converter refuses the whole file if any case is malformed, and reports which file and why.
-Never describe a partial export as complete. Warnings about dropped columns matter: a column
-with no Qase equivalent silently disappears from the import unless a custom field is created
-first.
-
-Details of the format, the allowed values, and what is inferred versus documented are in
-`references/qase-csv.md`.
+When the cases go into Qase, **REQUIRED SUB-SKILL:** use qa-agent-skills:export-cases-to-qase on Casely's `results/` folder.
 
 ---
 
@@ -192,5 +166,3 @@ If a valuable check needs writes, name it as something to run on staging instead
 
 - `references/exploration-method.md` — heuristics for what to probe and how to record it.
 - `references/observed-spec-format.md` — the exact structure of `observed_spec.md`.
-- `references/qase-csv.md` — Qase's CSV columns, allowed values, and the converter's behaviour.
-- `scripts/to_qase_csv.py` — Casely Markdown cases to Qase-importable CSV.

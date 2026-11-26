@@ -88,6 +88,9 @@ If "No", rewrite immediately.
 - **Translations:** DO NOT summarize. Preserve hierarchy and evidence levels.
 - **Indonesian:** Keep standard technical terms in English, because Indonesian practitioners code-switch (e.g., "water changes", "siphon", "biological filter", "ammonia", "crash", "micro-jitter", "blackbox", "throttle punch", "low-pass").
 
+## Phase 6 — Review before calling it ready
+**REQUIRED SUB-SKILL:** use qa-agent-skills:review-tech-article on the finished draft, every language version, before you call it ready or hand it over for publishing. Run it in a fresh subagent when you can start one: give it the draft files and that skill, not your reasoning. Otherwise run its checklist yourself and say so. Hand over the revised draft and the review log, not your first draft.
+
 ---
 **Execution Instructions:** 
 Start by outputting Phase 0 (Article Type), Phase 1 (Single Main Claim), and Phase 2 (Evidence Level). Ask for user confirmation before building the Outline (Phase 3).
