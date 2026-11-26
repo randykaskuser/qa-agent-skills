@@ -66,6 +66,34 @@
       ]
     }
   ],
+  "retest": [
+    {
+      "id": "SHOP-28",
+      "title": "Saved address keeps the postcode",
+      "sub": "Staging, build 2.4.1, 19 Nov 2026",
+      "comment": "QA passed on staging 2.4.1: postcode and label stay after save and reopen.",
+      "checks": [
+        {
+          "check": "Reopen a saved address",
+          "before": "Postcode field empty",
+          "before_image": "example/before-postcode.png",
+          "after": "Postcode 10115 kept",
+          "after_image": "example/after-postcode.png"
+        },
+        {
+          "check": "Order page label",
+          "before": "Label fell back to “Address 1”",
+          "after": "Shows the saved label",
+          "after_image": "example/after-label.png"
+        },
+        {
+          "check": "Save with no change",
+          "before": "PATCH sent postcode: null",
+          "after": "PATCH sends the stored postcode"
+        }
+      ]
+    }
+  ],
   "figures": [
     {
       "title": "Discount code survives a clear",

@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-"""Build a QA proof page: one light-theme HTML file, images embedded.
+"""Build a QA results page: one light-theme HTML file, images embedded.
 
-  python3 build_proof_page.py spec.json out.html
+  python3 report_test_results.py spec.json out.html [--png]
+
+--png also writes <id>-before-after.png (and .html) per retest ticket next to out.html, for
+pasting into a tracker comment. Needs Pillow and Chrome or Chromium (set CHROME to its path if not found).
 
 Image paths are relative to spec.json. A working spec: spec.example.json next to this script.
 
@@ -22,12 +25,19 @@ Spec (* = required):
                 a failed or differing row needs at least one figure in the page
   table         {heading, columns[], rows[[...]]}: everything that was tested
   open          [text]: blocked items, gaps, test data left behind
-  headings      {tickets, rows, figures, open}: rename a section
+  headings      {tickets, rows, retest, figures, open}: rename a section
   legend        {cls: wording}: reword a class, e.g. {"ok": "confirmed", "b": "question", "x": "anomaly"}
+
+Fix retest (before/after) — add retest; title, lead, columns and rows may then be left out:
+  retest        [{id*, title* (one line), sub* (environment, date, viewer/event timezones when they matter),
+                  comment (the one-line tracker comment that goes with the PNG),
+                  checks*: [{check*, before*, after*, before_image, after_image}]}]
+                before_image: crop of the original bug-report proof (red border); after_image: crop of the retest (green border)
+                for passed retests only; a fix that still fails gets a repro card (see verify-bug-fix)
 
 Text is escaped; <strong>, <em>, <code>, <br> and <a href="http..."> are kept.
 """
-import base64, html, json, mimetypes, os, re, sys
+import base64, html, json, mimetypes, os, re, shutil, subprocess, sys
 
 CSS = '''
 :root{--bg:#f3f4f8;--surface:#ffffff;--surface2:#f8f9fc;--fg:#12161d;--muted:#566070;--line:#dfe3ea;--accent:#2155d6;--accent-bg:#e8eefc;
@@ -125,7 +135,10 @@ def rich(text):
 
 
 def check(spec, base):
-    errs = [f"missing: {k}" for k in ("title", "lead", "columns", "rows") if not spec.get(k)]
+    errs = check_retest(spec, base)
+    if spec.get("retest") and not spec.get("rows"):
+        return errs
+    errs += [f"missing: {k}" for k in ("title", "lead", "columns", "rows") if not spec.get(k)]
     cols = spec.get("columns") or []
     red = False
     for i, r in enumerate(spec.get("rows") or [], 1):
@@ -164,6 +177,83 @@ def check(spec, base):
         elif "count" not in s and "value" not in s:
             errs.append(f"stat {s.get('label')}: needs value or count")
     return errs
+
+
+BA_CSS = '''
+.ba{background:#fff;font-family:-apple-system,"Inter","Helvetica Neue",Arial,sans-serif;color:#1f2328;padding:28px;border-radius:14px}
+.ba h1{font-family:inherit;font-size:22px;line-height:1.3;font-weight:700;margin:0 0 4px;letter-spacing:0}
+.ba .sub{color:#59636e;font-size:14px;margin-bottom:18px}
+.ba .pass{display:inline-block;background:#dafbe1;color:#1a7f37;border:1px solid #aceebb;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:600;margin-left:8px;vertical-align:3px}
+.ba table{width:100%;min-width:0;border-collapse:separate;border-spacing:0;border:1px solid #d1d9e0;border-radius:10px;overflow:hidden;font-size:15px}
+.ba thead th{position:static;background:#f6f8fa;text-align:left;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#59636e;font-weight:600;padding:10px 14px;border-bottom:1px solid #d1d9e0}
+.ba tbody td{padding:14px;vertical-align:top;border-bottom:1px solid #eaeef2;line-height:1.4;background:none}
+.ba tbody tr:last-child td{border-bottom:0}
+.ba tbody tr:hover>*{background:none}
+.ba td.check{width:210px;font-weight:600}
+.ba td.before,.ba tbody tr:hover>td.before{width:40%;background:#fff8f7}
+.ba td.after,.ba tbody tr:hover>td.after{background:#f6fef8}
+.ba .lbl{font-size:12px;font-weight:700;margin-bottom:4px;text-transform:none;letter-spacing:0}
+.ba .before .lbl{color:#cf222e}.ba .after .lbl{color:#1a7f37}
+.ba img{display:block;max-width:100%;max-height:230px;margin-top:8px;border-radius:6px}
+.ba .before img{border:2px solid #cf222e}.ba .after img{border:2px solid #1a7f37}
+.ba .scroll{overflow-x:auto}.ba .scroll table{min-width:720px}
+.ba .note{color:#59636e;font-size:13px;margin-top:12px}
+'''
+PNG_CSS = "*{box-sizing:border-box}body{margin:0;background:#fff}.ba{width:1100px;border-radius:0}"
+
+
+def check_retest(spec, base):
+    errs = []
+    for i, t in enumerate(spec.get("retest") or [], 1):
+        name = f"retest {i} ({t.get('id', 'no id')})"
+        errs += [f"{name}: {k} is missing" for k in ("id", "title", "sub", "checks") if not t.get(k)]
+        for j, c in enumerate(t.get("checks") or [], 1):
+            errs += [f"{name} check {j}: {k} is missing" for k in ("check", "before", "after") if not c.get(k)]
+            errs += [f"{name} check {j}: image not found: {c[k]}" for k in ("before_image", "after_image")
+                     if c.get(k) and not os.path.exists(os.path.join(base, c[k]))]
+    return errs
+
+
+def before_after(t, base):
+    def cell(side, label, c):
+        img = c.get(f"{side}_image")
+        img = f'<img src="{b64(os.path.join(base, img))}" alt="{label.title()}: {html.escape(c["check"])}">' if img else ""
+        return f'<td class="{side}"><div class="lbl">{label}</div>{rich(c[side])}{img}</td>'
+    trs = "".join(f'<tr><td class="check">{rich(c["check"])}</td>{cell("before", "BEFORE", c)}{cell("after", "AFTER ✓", c)}</tr>'
+                  for c in t["checks"])
+    note = f'<p class="note">Comment: {rich(t["comment"])}</p>' if t.get("comment") else ""
+    return (f'<div class="ba" id="{html.escape(t["id"])}"><h1>{rich(t["id"])}: {rich(t["title"])}<span class="pass">QA passed</span></h1>'
+            f'<div class="sub">{rich(t["sub"])}</div><div class="scroll"><table><thead><tr><th>Check</th><th>Before</th><th>After</th></tr></thead>'
+            f'<tbody>{trs}</tbody></table></div>{note}</div>')
+
+
+def chrome():
+    found = [os.environ.get("CHROME", ""), "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+             "/Applications/Chromium.app/Contents/MacOS/Chromium"]
+    found += [shutil.which(n) or "" for n in ("google-chrome", "google-chrome-stable", "chromium", "chromium-browser", "chrome")]
+    return next((p for p in found if p and os.path.exists(p)), None)
+
+
+def export_png(t, base, out_dir):
+    """One light-theme PNG per ticket for a tracker comment; the HTML it was rendered from is kept beside it."""
+    from PIL import Image, ImageChops
+    exe = chrome()
+    if not exe:
+        sys.exit("--png needs Chrome or Chromium; set CHROME to its path")
+    stem = os.path.join(out_dir, re.sub(r"[^\w.-]+", "-", t["id"]) + "-before-after")
+    doc = (f'<!doctype html><meta charset="utf-8"><title>{html.escape(t["id"])}</title>'
+           f'<style>{BA_CSS}{PNG_CSS}</style>{before_after({**t, "comment": ""}, base)}')
+    with open(stem + ".html", "w", encoding="utf-8") as fh:
+        fh.write(doc)
+    subprocess.run([exe, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=2",
+                    "--window-size=1160,3000", f"--screenshot={stem}.png", "file://" + os.path.abspath(stem + ".html")],
+                   check=True, capture_output=True)
+    im = Image.open(stem + ".png").convert("RGB")
+    box = ImageChops.difference(im, Image.new("RGB", im.size, (255, 255, 255))).getbbox()
+    if box:
+        im = im.crop((0, 0, im.width, min(im.height, box[3] + 56)))
+    im.save(stem + ".png")
+    return stem + ".png"
 
 
 def stat(s, rows):
@@ -211,8 +301,13 @@ def ticket(t):
 
 
 def build(spec, base):
-    cols, rows = spec["columns"], spec["rows"]
-    h = {"tickets": "Tickets", "rows": "Results", "figures": "Proof", "open": "Open items", **(spec.get("headings") or {})}
+    cols, rows, retest = spec.get("columns") or [], spec.get("rows") or [], spec.get("retest") or []
+    if retest and not rows:  # fix-retest only: a verdict line is all the header needs
+        spec.setdefault("title", "Fix retest: " + ", ".join(t["id"] for t in retest))
+        spec.setdefault("lead", f"<strong>{len(retest)} fix{'es' if len(retest) > 1 else ''} retested.</strong> "
+                        + " · ".join(f'{t["id"]}: QA passed' for t in retest))
+    h = {"tickets": "Tickets", "rows": "Results", "retest": "Before / after", "figures": "Proof", "open": "Open items",
+         **(spec.get("headings") or {})}
     parts, nav = [], [("summary", "Summary")]
 
     def add(anchor, title, inner):
@@ -234,7 +329,10 @@ def build(spec, base):
         f'<tr><th scope="row">{rich(r["item"])}' + (f'<span class="src">Source: {rich(r["source"])}</span>' if r.get("source") else "") + "</th>"
         + "".join(f'<td class="{c[0]}">{rich(c[1])}</td>' for c in r["cells"])
         + (f'<td class="tk">{rich(r.get("ticket", ""))}</td>' if has_tk else "") + "</tr>" for r in rows)
-    add("results", h["rows"], f'<div class="legend">{legend}</div><div class="tbl"><table{narrow}><thead><tr><th>Item</th>{head}</tr></thead><tbody>{trs}</tbody></table></div>')
+    if rows:
+        add("results", h["rows"], f'<div class="legend">{legend}</div><div class="tbl"><table{narrow}><thead><tr><th>Item</th>{head}</tr></thead><tbody>{trs}</tbody></table></div>')
+    if retest:
+        add("retest", h["retest"], '<div class="figs">' + "".join(f'<div class="card">{before_after(t, base)}</div>' for t in retest) + "</div>")
     if spec.get("figures"):
         add("proof", h["figures"], '<p class="muted">Click an image to enlarge it.</p><div class="figs">'
             + "".join(figure(n, f, cols, base) for n, f in enumerate(spec["figures"], 1)) + "</div>")
@@ -252,7 +350,7 @@ def build(spec, base):
 <title>{html.escape(spec["title"])}</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
-<style>body{{margin:0}}{CSS}</style>
+<style>body{{margin:0}}{CSS}{BA_CSS if retest else ""}</style>
 <nav class="nav" aria-label="Sections"><div class="nav-in">{navh}</div></nav>
 <div class="wrap">
 <header class="hero" id="summary"><div><p class="eyebrow">{rich(spec.get("eyebrow", ""))}</p><h1>{rich(spec["title"])}</h1></div>
@@ -269,9 +367,12 @@ document.addEventListener('keydown',function(e){{if(e.key==='Escape')lb.classLis
 
 
 def main():
-    if len(sys.argv) != 3 or sys.argv[1] in ("-h", "--help"):
+    png = "--png" in sys.argv
+    args = [a for a in sys.argv[1:] if a != "--png"]
+    if len(args) != 2 or args[0] in ("-h", "--help"):
         print(__doc__)
         sys.exit(0 if "-h" in sys.argv or "--help" in sys.argv else 2)
+    sys.argv[1:] = args
     with open(sys.argv[1], encoding="utf-8") as fh:
         spec = json.load(fh)
     spec.setdefault("columns", spec.get("platforms"))
@@ -282,6 +383,11 @@ def main():
     with open(sys.argv[2], "w", encoding="utf-8") as fh:
         fh.write(build(spec, base))
     print("wrote", sys.argv[2])
+    if png:
+        if not spec.get("retest"):
+            sys.exit("--png exports retest tickets; this spec has none")
+        for t in spec["retest"]:
+            print("wrote", export_png(t, base, os.path.dirname(os.path.abspath(sys.argv[2]))), "| comment:", t.get("comment", ""))
 
 
 if __name__ == "__main__":
