@@ -202,6 +202,22 @@ BA_CSS = '''
 PNG_CSS = "*{box-sizing:border-box}body{margin:0;background:#fff}.ba{width:1100px;border-radius:0}"
 
 
+PLACEHOLDER = re.compile(r"^\W*(n/?a|none|tbd|todo|unknown|-|—|not captured\b.*|no screenshot\b.*)\W*$", re.I)
+WEAK = re.compile(r"too small|blurry|blurred|no usable (screenshot|image)|screenshot (missing|not available)", re.I)
+CELL_W = {"before_image": 300, "after_image": 470}  # css px of the image in its cell in the PNG; max height 230
+
+
+def too_small(path, side):
+    """An image narrower than its cell gets enlarged and looks blurry."""
+    try:
+        from PIL import Image
+    except ImportError:
+        return None
+    w, h = Image.open(path).size
+    shown = min(CELL_W[side], 230 * w / h)
+    return f"{w}x{h} px is enlarged {shown / w:.1f}x and will look blurry; retake it at full resolution" if w < shown else None
+
+
 def check_retest(spec, base):
     errs = []
     for i, t in enumerate(spec.get("retest") or [], 1):
@@ -209,8 +225,18 @@ def check_retest(spec, base):
         errs += [f"{name}: {k} is missing" for k in ("id", "title", "sub", "checks") if not t.get(k)]
         for j, c in enumerate(t.get("checks") or [], 1):
             errs += [f"{name} check {j}: {k} is missing" for k in ("check", "before", "after") if not c.get(k)]
-            errs += [f"{name} check {j}: image not found: {c[k]}" for k in ("before_image", "after_image")
-                     if c.get(k) and not os.path.exists(os.path.join(base, c[k]))]
+            if c.get("before") and PLACEHOLDER.match(str(c["before"])):
+                errs.append(f"{name} check {j}: before says nothing; write what the user saw before the fix, or 'No ... before' for something new")
+            if c.get("after") and WEAK.search(str(c["after"])):
+                errs.append(f"{name} check {j}: after admits weak proof; retake the screenshot, or tell the user instead of posting")
+            for k in ("before_image", "after_image"):
+                if not c.get(k):
+                    continue
+                path = os.path.join(base, c[k])
+                if not os.path.exists(path):
+                    errs.append(f"{name} check {j}: image not found: {c[k]}")
+                elif too_small(path, k):
+                    errs.append(f"{name} check {j}: {c[k]} {too_small(path, k)}")
     return errs
 
 

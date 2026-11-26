@@ -17,7 +17,7 @@ Retest a reported bug on the build that claims the fix, give one verdict per tic
 3. **Retest through the real UI.** Watch the request and response for every save. Screenshot each result and crop the same region as the Before proof; leave out sidebars and personal data. A check with no screenshot stays text only and names its evidence, such as the response value.
 4. **Verdict per ticket:** *passed* (every check passed), *not fixed* (a check failed, per the core rule) or *blocked* (the state could not be reached; say why).
 5. **Hand back:**
-   - **Passed:** **REQUIRED SUB-SKILL:** use qa-agent-skills:report-test-results (run type: fix retest, with `--png`). Post each PNG with its one-line comment: "QA passed on <env> <build>: <what now works>."
+   - **Passed:** **REQUIRED SUB-SKILL:** use qa-agent-skills:report-test-results (run type: fix retest, with `--png`). Review each PNG as that skill says, then post it with its one-line comment: "QA passed on <env> <build>: <what now works>."
    - **Not fixed:** no before/after image. The comment is the repro card: "Not fixed on <env> <build>: <failing check>.", then steps, expected, actual, build and date. Attach the cropped screenshot with the failing part boxed in red (`compare_panels.py` in report-test-results, `RED`). Propose moving the ticket back to the developer; change its status only after the user agrees.
    - **Blocked:** comment what blocks the retest and what would unblock it. No verdict.
 6. **Reply with one row per ticket:** id, verdict, the failing check if any, comment link. Verdicts first; a deadline or a "main case works" does not change one.
