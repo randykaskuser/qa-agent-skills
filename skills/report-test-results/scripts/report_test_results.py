@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build a QA proof page: one light-theme HTML file, images embedded.
+"""Build a QA results page: one light-theme HTML file, images embedded.
 
-  python3 build_proof_page.py spec.json out.html [--png]
+  python3 report_test_results.py spec.json out.html [--png]
 
 --png also writes <id>-before-after.png (and .html) per retest ticket next to out.html, for
 pasting into a tracker comment. Needs Pillow and Chrome or Chromium (set CHROME to its path if not found).
@@ -33,7 +33,7 @@ Fix retest (before/after) — add retest; title, lead, columns and rows may then
                   comment (the one-line tracker comment that goes with the PNG),
                   checks*: [{check*, before*, after*, before_image, after_image}]}]
                 before_image: crop of the original bug-report proof (red border); after_image: crop of the retest (green border)
-                for passed retests only; a fix that still fails is a ticket-test row with a figure
+                for passed retests only; a fix that still fails gets a repro card (see verify-bug-fix)
 
 Text is escaped; <strong>, <em>, <code>, <br> and <a href="http..."> are kept.
 """

@@ -1,16 +1,16 @@
 ---
-name: build-proof-page
-description: Use when a test run, platform comparison or exploration is finished and its results must be read or trusted by someone who was not there (PM, developers, another tester), when a bug fix was retested and the ticket needs before/after proof, or when another QA skill calls for a proof page. Not for test cases, coverage pages, code review or CI reports that already have their own format.
+name: report-test-results
+description: Use when a test run, platform comparison or exploration is finished and its results must be read or trusted by someone who was not there (PM, developers, another tester), or when another QA skill (test-a-ticket, consistency-check, explore-app-without-spec, verify-bug-fix) calls for a results page or before/after image. Not for running a bug retest itself (use verify-bug-fix). Not for test cases, coverage pages, code review or CI reports that already have their own format.
 license: "MIT"
 ---
 
-# Build Proof Page
+# Report Test Results
 
 One light-theme page that answers, in this order: is it good, what was judged against, what happened to every item, what proves it, what was tested, what is still open.
 
 ## Steps
 
-1. Read `python3 ${CLAUDE_PLUGIN_ROOT}/skills/build-proof-page/scripts/build_proof_page.py --help` and `scripts/spec.example.json`. If that path does not resolve, use the `scripts` folder beside this file.
+1. Read `python3 ${CLAUDE_PLUGIN_ROOT}/skills/report-test-results/scripts/report_test_results.py --help` and `scripts/spec.example.json`. If that path does not resolve, use the `scripts` folder beside this file.
 2. Fill `spec.json` next to the screenshots, using the row for your run type:
 
 | Run | columns | one row per | figure per | table |
@@ -22,7 +22,7 @@ One light-theme page that answers, in this order: is it good, what was judged ag
 | Fix retest (before/after) | `retest`: Check, Before, After | check, per ticket | — (each check carries its own crops) | — |
 
    For a fix retest, fill `retest` (one entry per ticket; `rows` may be left out):
-   - **Header:** ticket id, one-line title, the "QA passed" pill. Passed retests only: a fix that still fails goes in `rows` with a figure.
+   - **Header:** ticket id, one-line title, the "QA passed" pill. Passed retests only; verify-bug-fix handles a fix that still fails.
    - **`sub`:** environment, date, and the viewer and event timezones when they matter.
    - **Before:** the bug in red. Reuse the earlier bug-report proof image as `before_image` when one exists; otherwise text only.
    - **After:** the retest in green, with a crop of the retest screenshot as `after_image`.
