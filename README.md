@@ -10,7 +10,7 @@ The core is five skills, covering the situations QA actually shows up in:
 | [`test-a-ticket`](skills/test-a-ticket) | There **is** a ticket and a code change to verify | A QA ticket, a test run against live environments, one results comment with reproducible bug reports |
 | [`explore-app-without-spec`](skills/explore-app-without-spec) | There is **no** spec — just a URL | An observed-behaviour spec → test cases → Qase-importable CSV |
 | [`verify-bug-fix`](skills/verify-bug-fix) | A reported bug is marked **fixed** and needs retesting | One verdict per ticket: a before/after PNG with a one-line "QA passed" comment, or a repro card and a proposal to reopen |
-| [`consistency-check`](skills/consistency-check) | The same flow must match across web, Android, iOS or builds | Marked side-by-side screenshots judged against a named source of truth, then bugs per platform |
+| [`consistency-check`](skills/consistency-check) | The same flow must match across web, Android, iOS or builds, or the steps of one app must share one layout | Marked side-by-side screenshots judged against a named source of truth, then bugs per platform |
 | [`write-test-cases`](skills/write-test-cases) | There **is** a spec, user story, or acceptance criteria — and you want test cases from it | Review-ready test cases, a TestRail/Qase/Zephyr-ready export, and a Postman collection when the spec describes an API |
 
 Plus eleven more:
@@ -136,7 +136,7 @@ Have a spec but no test cases?      → write-test-cases
 Have nothing but a URL?             → explore-app-without-spec → write-test-cases → export-cases-to-qase
 Test design done, cases marked?     → design-tests-for-new-app → automate-ticket-in-batches
 Have cases, want them automated?    → automation-architecture (architecture + review) or write-playwright-tests (generate + self-heal)
-Same flow on several platforms?     → consistency-check (what differs, judged against a named source)
+Same flow on several platforms, or steps that should look alike? → consistency-check (what differs, judged against a named source)
 Results someone else must trust?    → report-test-results (called by the testing skills; one page: verdict, every item, proof)
 About to change a screen?           → annotate-screen (see it, its controls and its rough edges first)
 Writing a technical article?        → write-tech-article → review-tech-article
