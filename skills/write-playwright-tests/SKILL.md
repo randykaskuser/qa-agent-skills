@@ -10,7 +10,7 @@ Turn raw requirements (PRD, Jira, user stories) into maintainable Playwright sui
 ## 1. Requirement Analysis
 Before writing any code, analyze the input requirements.
 - Identify the core user journey.
-- Assess risks and edge cases.
+- Assess risks and edge cases. For each field the flow lets the user set, include clear and replace scenarios: save, reload, and assert the request sends null or empty, not the old value.
 - Outline the test scenarios to be covered.
 - Clearly state the scope of what will be automated (and what will be omitted, e.g., third-party auth).
 - Ask the user for the target URL if not provided.

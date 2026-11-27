@@ -35,8 +35,9 @@ For each interactive element, in this order:
 6. **Navigation.** Back button mid-flow. Refresh mid-state. Deep-link straight into a step.
 7. **Interruption.** Go offline and act. Throttle to slow 3G. Watch what the UI claims while the
    request is pending or failed.
+8. **Clear and replace.** For any control that holds a saved value (image, optional field, date, choice): set it and save; clear it and save; replace it and save. Reload after each and check the request sends null or empty, not the old value. Most sessions only ever add a value.
 
-Not every control needs all seven. Money, auth, and anything that writes data get all of them.
+Not every control needs all eight. Money, auth, and anything that writes data get all of them.
 
 ## What to watch beyond the page
 
@@ -44,6 +45,7 @@ Not every control needs all seven. Money, auth, and anything that writes data ge
   appears only on the error path.
 - **Network.** Method, path, status, and shape of request and response for each action. This is
   what makes API-level test cases possible later instead of UI-only ones.
+- **Other screens that write the same value.** The inventory often shows a second way to set a field: admin vs user view, web vs mobile, bulk import vs single edit, old vs new editor. Repeat the clear and replace probes there and compare; they often share the backend but not the frontend code.
 - **State after reload.** Whether what you just did survived. Silent non-persistence is common
   and almost never in a spec.
 - **What the UI says while waiting.** A button that stays enabled during a request, or a spinner

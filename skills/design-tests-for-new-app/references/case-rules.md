@@ -9,7 +9,10 @@ Every author and every reviewer works from this page. `scripts/apply_patches.py 
 3. **No case for analytics or tracking ACs** ("fire `article_view`"). Same: "Not tested" in the comment.
 4. **No case for a ticket with no AC and only a design link** until the design is read into concrete expected lines, or the ticket is listed as "needs AC" in the comment.
 5. **Conflicting requirements get no case.** Two tickets (or a ticket and a design) that say different things go to the conflict ticket. No "on hold" case, no case that picks one side.
-6. **One case per tester pass**: one setup, one walk through the app, one account state. A second account, a second build, or a reinstall is a second case.
+6. **Clear and replace.** A field the user can set (image, optional field, date, choice) gets a set case, a clear case and a replace case. Their expected lines include "after a reload" and, where the tester can see it, the saved value (empty, not the old one).
+7. **Same field, other screens.** When a ticket's field is also written by other screens or APIs (admin vs user view, web vs mobile, bulk vs single, old vs new editor), each writer gets its own set, clear and replace cases, tagged for the screen. List the writers in phase 1. A writer you cannot confirm goes on the open questions in the ticket comment, not silently left out.
+8. **Side fixes in comments.** A developer comment such as "also fixed X" or "found along the way" makes X a case, sourced to that comment ("Sources WEB-506 comment"). It is P1 when X was broken, since no other ticket covers it.
+9. **One case per tester pass**: one setup, one walk through the app, one account state. A second account, a second build, or a reinstall is a second case.
 
 ## Shape
 
