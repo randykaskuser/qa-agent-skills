@@ -1,7 +1,7 @@
 {
   "title": "Checkout rework: test run",
   "eyebrow": "QA-12 · Checkout rework",
-  "lead": "<strong>Not ready: 1 of 4 checks failed.</strong> Staging, build 2.4.1, 19 Nov 2026.",
+  "lead": "<strong>Not ready: 1 of 4 checks failed.</strong> Approve the proposed bug for the discount code; the iOS check waits for a test build. Staging, build 2.4.1, 19 Nov 2026.",
   "columns": [
     "Result"
   ],
@@ -126,6 +126,15 @@
       ]
     ]
   },
+  "sections": [
+    {
+      "heading": "Not covered",
+      "items": [
+        "Payment providers other than the test card",
+        "Orders with more than one discount code"
+      ]
+    }
+  ],
   "open": [
     "<strong>iOS total:</strong> blocked until a test build exists."
   ]

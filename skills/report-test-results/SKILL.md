@@ -31,14 +31,24 @@ One light-theme page that answers, in this order: is it good, what was judged ag
    - `comment`: the one-line tracker comment that goes with the PNG.
 3. Crop and mark screenshots with `compare_panels.py` (same folder). No personal data or tokens in an image or in `evidence`.
 4. Build; add `--png` for a fix retest. It also writes `<id>-before-after.png` (light theme, plus its HTML) per ticket next to the page, rendered with headless Chrome. Post each PNG with its one-line `comment` on the Linear or Jira ticket. The script writes nothing until every red cell names its source and every figure has a date and proof; fix the spec, not the script.
-5. **For a fix retest, review every PNG before posting it.** Give a fresh subagent only the PNG and the ticket text; with no subagent, open the PNG yourself. Check each item:
+5. **Review before handing over, every run type.** Give a fresh subagent only the page text (or, for a fix retest, the PNG) and the ticket text, not your reasoning; with no subagent, read it yourself as the reader would. It writes down its answers to the five questions in "The page contract" below, from the page alone, and quotes every word it does not understand. Any "can't tell" or unexplained number is a fix. For a fix retest it also checks each PNG:
    - the title is the ticket's title, word for word;
    - rows are in the order the user does them;
    - each image shows exactly what its cell says, on the right record;
    - every image is sharp at full size and has no personal data;
    - every Before says what happened before.
 
-   Fix the spec or retake the screenshot, rebuild, and review again. When a shot cannot be retaken, tell the user before posting: weak proof does not change the verdict, it holds the post until a retake or the user's go-ahead. The PNGs and their comments are what you hand over; publish the page only when asked.
+   Fix the spec or retake the screenshot, rebuild, and review again until every answer is on the page. When a shot cannot be retaken, tell the user before posting: weak proof does not change the verdict, it holds the post until a retake or the user's go-ahead. The PNGs and their comments are what you hand over; publish the page only when asked.
 6. Otherwise, open the page once. Then publish it private with the Artifact tool, or send the HTML file where there is none. On a rerun, republish to the same URL.
 
-`lead` states the verdict first: ready or not, the count, build and date. Blocked and not-run items are rows too, so the totals match the checklist.
+## The page contract
+
+A reader who was not there answers five questions from the page alone. Fill the spec so each answer is on it:
+
+1. **What happened, and what do I do?** `lead`: sentence one is the verdict (ready or not, the count); sentence two is what the reader must do or decide ("approve 2 tickets, answer 2 questions", or "nothing"). Then build or environment and date.
+2. **What do the numbers count?** Each stat counts a real thing that its label names: "Bugs filed", "Need a decision", "Contests run", not table rows. Numbers that should add up do; when two rows share one bug, the stat's note says so.
+3. **Which ticket covers what?** Once tickets exist, their cards come first, and every row and figure a ticket covers names it as "TICKET #n" (n = the bug's number in that ticket; the ticket id alone when its bugs are not numbered). A row no ticket covers says why, for example "none: needs a decision".
+4. **Are the words mine?** Name rows and figures by what the user sees, in plain words. Internal codes (B1, W9, "lead 3"), record IDs and environment codenames stay off the page, or are explained once where they first appear.
+5. **What is still open?** `open` lists every action or decision, each with who: questions for developers, the proposed standard for each observed difference, checks not run, test data to clean up.
+
+Blocked and not-run items are rows too, so the totals match the checklist. A question for developers is a `b` row, reworded with `legend` ({"b": "question or not checked"}); an item that does not exist on one platform gets an `n` cell, "Not on this platform". Anything else the reader needs goes in `sections`; never edit the built HTML, because the next build loses it.

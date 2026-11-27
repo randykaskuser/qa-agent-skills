@@ -213,6 +213,10 @@ produced the annotated page and 3-4 measured rough edges; no run without it did 
 baseline invented UI options the code does not have. The skill takes about twice as long (around
 11 minutes against 6).
 
+## Checks
+
+`python3 .github/scripts/check_plugin.py .` checks every skill's frontmatter, cross-skill references and file paths, the versions, the README, and that the scripts build their examples. It runs on every pull request (`.github/workflows/check-plugin.yml`); run it before a release too.
+
 ## Attribution
 
 - `test-a-ticket`, `explore-app-without-spec`, `automation-architecture`, `write-playwright-tests`,
