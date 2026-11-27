@@ -24,8 +24,11 @@ Spec (* = required):
                   evidence may be text or a list of lines; subtitle, tested[] (records used), severity, steps[], expected, actual, tickets}]
                 a failed or differing row needs at least one figure in the page
   table         {heading, columns[], rows[[...]]}: everything that was tested
-  open          [text]: blocked items, gaps, test data left behind
+  open          [text]: every action or decision, each with who: dev questions, proposed standards, blocked items, test data left behind
+  sections      [{heading*, text, items[], table: {columns[], rows[[...]]}}]: anything else the reader needs, before open;
+                use these instead of editing the built HTML
   headings      {tickets, rows, retest, figures, open}: rename a section
+  Once tickets are listed, every row with a d or x cell names its ticket ("DAS-530 #2").
   legend        {cls: wording}: reword a class, e.g. {"ok": "confirmed", "b": "question", "x": "anomaly"}
 
 Fix retest (before/after) — add retest; title, lead, columns and rows may then be left out:
@@ -171,6 +174,17 @@ def check(spec, base):
         errs += [f"rule: {k} is missing" for k in ("title", "items") if not spec["rule"].get(k)]
     if spec.get("table"):
         errs += [f"table: {k} is missing" for k in ("heading", "columns", "rows") if not spec["table"].get(k)]
+    for i, sec in enumerate(spec.get("sections") or [], 1):
+        if not sec.get("heading"):
+            errs.append(f"section {i}: heading is missing")
+        if not (sec.get("text") or sec.get("items") or sec.get("table")):
+            errs.append(f"section {i} ({sec.get('heading', '')}): needs text, items or table")
+        if sec.get("table"):
+            errs += [f"section {i} table: {k} is missing" for k in ("columns", "rows") if not sec["table"].get(k)]
+    if spec.get("tickets"):
+        for i, r in enumerate(spec.get("rows") or [], 1):
+            if any(c[0] in ("d", "x") for c in r.get("cells") or []) and not r.get("ticket"):
+                errs.append(f"row {i} ({r.get('item', '')}): tickets exist, so a d or x row names its ticket, e.g. \"ABC-12 #2\", or \"proposed\"")
     for s in spec.get("stats") or []:
         if "count" in s and s["count"] not in CLS:
             errs.append(f"stat {s.get('label')}: unknown count {s['count']}")
@@ -367,6 +381,15 @@ def build(spec, base):
         th = "".join(f"<th>{rich(c)}</th>" for c in tb["columns"])
         body = "".join("<tr>" + "".join(f"<td>{rich(x)}</td>" for x in r) + "</tr>" for r in tb["rows"])
         add("tested", tb["heading"], f'<div class="tbl"><table><thead><tr>{th}</tr></thead><tbody>{body}</tbody></table></div>')
+    for i, sec in enumerate(spec.get("sections") or [], 1):
+        inner = f'<p class="muted">{rich(sec["text"])}</p>' if sec.get("text") else ""
+        if sec.get("items"):
+            inner += '<div class="card notes"><ul>' + "".join(f"<li>{rich(x)}</li>" for x in sec["items"]) + "</ul></div>"
+        if sec.get("table"):
+            th = "".join(f"<th>{rich(c)}</th>" for c in sec["table"]["columns"])
+            body = "".join("<tr>" + "".join(f"<td>{rich(x)}</td>" for x in r) + "</tr>" for r in sec["table"]["rows"])
+            inner += f'<div class="tbl"><table><thead><tr>{th}</tr></thead><tbody>{body}</tbody></table></div>'
+        add(f"sec{i}", sec["heading"], inner)
     if spec.get("open"):
         add("open", h["open"], '<div class="card notes"><ul>' + "".join(f"<li>{rich(x)}</li>" for x in spec["open"]) + "</ul></div>")
     navh = "".join(f'<a href="#{a}">{rich(t)}</a>' for a, t in nav)
